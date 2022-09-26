@@ -1,0 +1,22 @@
+/******************************************************************************
+ * Module: Timers
+ * File Name: timer.h
+ * Description: Header file for The ATmega32 Timer Driver.
+ * Author: Mostafa Mahmoud
+ * Group:  71
+ * Created on: Sep 15, 2022
+ *******************************************************************************/
+
+#ifndef TIMER_H_
+#define TIMER_H_
+
+#include "gpio.h"
+
+/*******************************************************************************
+ *                              Functions Prototypes                           *
+ *******************************************************************************/
+
+void Timer1_CTC_Init(void);
+
+
+#endif /* TIMER_H_ */
