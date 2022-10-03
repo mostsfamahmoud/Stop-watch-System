@@ -3177,3 +3177,380 @@ Data:         12 bytes (0.6% Full)
 
 Finished building: sizedummy
  
+12:00:55 **** Incremental Build of configuration Debug for project StopWatch ****
+make all 
+Building file: ../External_Interrupts.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=1000000UL -MMD -MP -MF"External_Interrupts.d" -MT"External_Interrupts.o" -c -o "External_Interrupts.o" "../External_Interrupts.c"
+Finished building: ../External_Interrupts.c
+ 
+Building file: ../StopWatch.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=1000000UL -MMD -MP -MF"StopWatch.d" -MT"StopWatch.o" -c -o "StopWatch.o" "../StopWatch.c"
+In file included from ../StopWatch.c:10:
+c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h:90:3: warning: #warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+Finished building: ../StopWatch.c
+ 
+Building file: ../gpio.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=1000000UL -MMD -MP -MF"gpio.d" -MT"gpio.o" -c -o "gpio.o" "../gpio.c"
+Finished building: ../gpio.c
+ 
+Building file: ../timer.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=1000000UL -MMD -MP -MF"timer.d" -MT"timer.o" -c -o "timer.o" "../timer.c"
+../timer.c:48: warning: return type defaults to 'int'
+../timer.c: In function 'ISR':
+../timer.c:48: warning: type of '__vector_7' defaults to 'int'
+../timer.c:49: error: 'g_Interrupt_Flag' undeclared (first use in this function)
+../timer.c:49: error: (Each undeclared identifier is reported only once
+../timer.c:49: error: for each function it appears in.)
+../timer.c:50: warning: control reaches end of non-void function
+../timer.c: At top level:
+../timer.c:55: warning: return type defaults to 'int'
+../timer.c:54: error: redefinition of 'ISR'
+../timer.c:48: error: previous definition of 'ISR' was here
+../timer.c: In function 'ISR':
+../timer.c:55: warning: type of '__vector_1' defaults to 'int'
+../timer.c:56: warning: implicit declaration of function 'resetDigits'
+../timer.c:60: warning: implicit declaration of function '_delay_ms'
+../timer.c:61: warning: control reaches end of non-void function
+../timer.c: At top level:
+../timer.c:66: warning: return type defaults to 'int'
+../timer.c:65: error: redefinition of 'ISR'
+../timer.c:48: error: previous definition of 'ISR' was here
+../timer.c: In function 'ISR':
+../timer.c:66: warning: type of '__vector_2' defaults to 'int'
+../timer.c:74: warning: control reaches end of non-void function
+../timer.c: At top level:
+../timer.c:79: warning: return type defaults to 'int'
+../timer.c:78: error: redefinition of 'ISR'
+../timer.c:48: error: previous definition of 'ISR' was here
+../timer.c: In function 'ISR':
+../timer.c:79: warning: type of '__vector_3' defaults to 'int'
+../timer.c:96: warning: control reaches end of non-void function
+make: *** [timer.o] Error 1
+"make all" terminated with exit code 2. Build might be incomplete.
+12:01:15 **** Incremental Build of configuration Debug for project StopWatch ****
+make all 
+Building file: ../timer.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=1000000UL -MMD -MP -MF"timer.d" -MT"timer.o" -c -o "timer.o" "../timer.c"
+../timer.c:48: warning: return type defaults to 'int'
+../timer.c: In function 'ISR':
+../timer.c:48: warning: type of '__vector_7' defaults to 'int'
+../timer.c:49: error: 'g_Interrupt_Flag' undeclared (first use in this function)
+../timer.c:49: error: (Each undeclared identifier is reported only once
+../timer.c:49: error: for each function it appears in.)
+../timer.c:50: warning: control reaches end of non-void function
+../timer.c: At top level:
+../timer.c:55: warning: return type defaults to 'int'
+../timer.c:54: error: redefinition of 'ISR'
+../timer.c:48: error: previous definition of 'ISR' was here
+../timer.c: In function 'ISR':
+../timer.c:55: warning: type of '__vector_1' defaults to 'int'
+../timer.c:56: warning: implicit declaration of function 'resetDigits'
+../timer.c:60: warning: implicit declaration of function '_delay_ms'
+../timer.c:61: warning: control reaches end of non-void function
+../timer.c: At top level:
+../timer.c:66: warning: return type defaults to 'int'
+../timer.c:65: error: redefinition of 'ISR'
+../timer.c:48: error: previous definition of 'ISR' was here
+../timer.c: In function 'ISR':
+../timer.c:66: warning: type of '__vector_2' defaults to 'int'
+../timer.c:74: warning: control reaches end of non-void function
+../timer.c: At top level:
+../timer.c:79: warning: return type defaults to 'int'
+../timer.c:78: error: redefinition of 'ISR'
+../timer.c:48: error: previous definition of 'ISR' was here
+../timer.c: In function 'ISR':
+../timer.c:79: warning: type of '__vector_3' defaults to 'int'
+../timer.c:96: warning: control reaches end of non-void function
+make: *** [timer.o] Error 1
+"make all" terminated with exit code 2. Build might be incomplete.
+12:03:05 **** Incremental Build of configuration Debug for project StopWatch ****
+make all 
+Building file: ../External_Interrupts.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=1000000UL -MMD -MP -MF"External_Interrupts.d" -MT"External_Interrupts.o" -c -o "External_Interrupts.o" "../External_Interrupts.c"
+../External_Interrupts.c: In function '__vector_1':
+../External_Interrupts.c:61: warning: implicit declaration of function 'resetDigits'
+../External_Interrupts.c:65: warning: implicit declaration of function '_delay_ms'
+Finished building: ../External_Interrupts.c
+ 
+Building file: ../timer.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=1000000UL -MMD -MP -MF"timer.d" -MT"timer.o" -c -o "timer.o" "../timer.c"
+../timer.c:48: warning: return type defaults to 'int'
+../timer.c: In function 'ISR':
+../timer.c:48: warning: type of '__vector_7' defaults to 'int'
+../timer.c:49: error: 'g_Interrupt_Flag' undeclared (first use in this function)
+../timer.c:49: error: (Each undeclared identifier is reported only once
+../timer.c:49: error: for each function it appears in.)
+../timer.c:50: warning: control reaches end of non-void function
+make: *** [timer.o] Error 1
+"make all" terminated with exit code 2. Build might be incomplete.
+12:04:17 **** Incremental Build of configuration Debug for project StopWatch ****
+make all 
+Building file: ../External_Interrupts.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=1000000UL -MMD -MP -MF"External_Interrupts.d" -MT"External_Interrupts.o" -c -o "External_Interrupts.o" "../External_Interrupts.c"
+In file included from ../gpio.h:14,
+                 from ../External_Interrupts.h:13,
+                 from ../External_Interrupts.c:10:
+c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h:90:3: warning: #warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+../External_Interrupts.c: In function '__vector_1':
+../External_Interrupts.c:61: warning: implicit declaration of function 'resetDigits'
+Finished building: ../External_Interrupts.c
+ 
+Building file: ../StopWatch.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=1000000UL -MMD -MP -MF"StopWatch.d" -MT"StopWatch.o" -c -o "StopWatch.o" "../StopWatch.c"
+In file included from ../gpio.h:14,
+                 from ../StopWatch.c:10:
+c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h:90:3: warning: #warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+Finished building: ../StopWatch.c
+ 
+Building file: ../gpio.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=1000000UL -MMD -MP -MF"gpio.d" -MT"gpio.o" -c -o "gpio.o" "../gpio.c"
+In file included from ../gpio.h:14,
+                 from ../gpio.c:11:
+c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h:90:3: warning: #warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+Finished building: ../gpio.c
+ 
+Building file: ../timer.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=1000000UL -MMD -MP -MF"timer.d" -MT"timer.o" -c -o "timer.o" "../timer.c"
+In file included from ../gpio.h:14,
+                 from ../timer.h:12,
+                 from ../timer.c:10:
+c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h:90:3: warning: #warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+../timer.c:48: warning: return type defaults to 'int'
+../timer.c: In function 'ISR':
+../timer.c:48: warning: type of '__vector_7' defaults to 'int'
+../timer.c:49: error: 'g_Interrupt_Flag' undeclared (first use in this function)
+../timer.c:49: error: (Each undeclared identifier is reported only once
+../timer.c:49: error: for each function it appears in.)
+../timer.c:50: warning: control reaches end of non-void function
+make: *** [timer.o] Error 1
+"make all" terminated with exit code 2. Build might be incomplete.
+12:07:18 **** Incremental Build of configuration Debug for project StopWatch ****
+make all 
+Building file: ../StopWatch.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=1000000UL -MMD -MP -MF"StopWatch.d" -MT"StopWatch.o" -c -o "StopWatch.o" "../StopWatch.c"
+In file included from ../gpio.h:14,
+                 from ../StopWatch.c:10:
+c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h:90:3: warning: #warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+Finished building: ../StopWatch.c
+ 
+Building file: ../timer.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=1000000UL -MMD -MP -MF"timer.d" -MT"timer.o" -c -o "timer.o" "../timer.c"
+In file included from ../gpio.h:14,
+                 from ../timer.h:12,
+                 from ../timer.c:10:
+c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h:90:3: warning: #warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+../timer.c:52: warning: return type defaults to 'int'
+../timer.c: In function 'ISR':
+../timer.c:52: warning: type of '__vector_7' defaults to 'int'
+../timer.c:54: warning: control reaches end of non-void function
+Finished building: ../timer.c
+ 
+Building target: StopWatch.elf
+Invoking: AVR C Linker
+avr-gcc -Wl,-Map,StopWatch.map -mmcu=atmega32 -o "StopWatch.elf"  ./External_Interrupts.o ./StopWatch.o ./gpio.o ./timer.o   
+Finished building target: StopWatch.elf
+ 
+Invoking: AVR Create Extended Listing
+avr-objdump -h -S StopWatch.elf  >"StopWatch.lss"
+Finished building: StopWatch.lss
+ 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega32 StopWatch.elf
+AVR Memory Usage
+----------------
+Device: atmega32
+
+Program:    6912 bytes (21.1% Full)
+(.text + .data + .bootloader)
+
+Data:         12 bytes (0.6% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+12:08:15 **** Incremental Build of configuration Debug for project StopWatch ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega32 StopWatch.elf
+AVR Memory Usage
+----------------
+Device: atmega32
+
+Program:    6912 bytes (21.1% Full)
+(.text + .data + .bootloader)
+
+Data:         12 bytes (0.6% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+12:08:17 **** Incremental Build of configuration Debug for project StopWatch ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega32 StopWatch.elf
+AVR Memory Usage
+----------------
+Device: atmega32
+
+Program:    6912 bytes (21.1% Full)
+(.text + .data + .bootloader)
+
+Data:         12 bytes (0.6% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+12:11:29 **** Incremental Build of configuration Debug for project StopWatch ****
+make all 
+Building file: ../External_Interrupts.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=1000000UL -MMD -MP -MF"External_Interrupts.d" -MT"External_Interrupts.o" -c -o "External_Interrupts.o" "../External_Interrupts.c"
+In file included from ../gpio.h:14,
+                 from ../External_Interrupts.h:13,
+                 from ../External_Interrupts.c:10:
+c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h:90:3: warning: #warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+../External_Interrupts.c: In function '__vector_1':
+../External_Interrupts.c:65: warning: implicit declaration of function 'resetDigits'
+Finished building: ../External_Interrupts.c
+ 
+Building file: ../StopWatch.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=1000000UL -MMD -MP -MF"StopWatch.d" -MT"StopWatch.o" -c -o "StopWatch.o" "../StopWatch.c"
+In file included from ../gpio.h:14,
+                 from ../StopWatch.c:10:
+c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h:90:3: warning: #warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+Finished building: ../StopWatch.c
+ 
+Building file: ../gpio.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=1000000UL -MMD -MP -MF"gpio.d" -MT"gpio.o" -c -o "gpio.o" "../gpio.c"
+In file included from ../gpio.h:14,
+                 from ../gpio.c:11:
+c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h:90:3: warning: #warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+Finished building: ../gpio.c
+ 
+Building target: StopWatch.elf
+Invoking: AVR C Linker
+avr-gcc -Wl,-Map,StopWatch.map -mmcu=atmega32 -o "StopWatch.elf"  ./External_Interrupts.o ./StopWatch.o ./gpio.o   
+Finished building target: StopWatch.elf
+ 
+Invoking: AVR Create Extended Listing
+avr-objdump -h -S StopWatch.elf  >"StopWatch.lss"
+Finished building: StopWatch.lss
+ 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega32 StopWatch.elf
+AVR Memory Usage
+----------------
+Device: atmega32
+
+Program:    6918 bytes (21.1% Full)
+(.text + .data + .bootloader)
+
+Data:         12 bytes (0.6% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+12:11:39 **** Incremental Build of configuration Debug for project StopWatch ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega32 StopWatch.elf
+AVR Memory Usage
+----------------
+Device: atmega32
+
+Program:    6918 bytes (21.1% Full)
+(.text + .data + .bootloader)
+
+Data:         12 bytes (0.6% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+12:14:34 **** Incremental Build of configuration Debug for project StopWatch ****
+make all 
+Building file: ../StopWatch.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=1000000UL -MMD -MP -MF"StopWatch.d" -MT"StopWatch.o" -c -o "StopWatch.o" "../StopWatch.c"
+In file included from ../gpio.h:14,
+                 from ../StopWatch.c:10:
+c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h:90:3: warning: #warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+Finished building: ../StopWatch.c
+ 
+Building target: StopWatch.elf
+Invoking: AVR C Linker
+avr-gcc -Wl,-Map,StopWatch.map -mmcu=atmega32 -o "StopWatch.elf"  ./External_Interrupts.o ./StopWatch.o ./gpio.o   
+Finished building target: StopWatch.elf
+ 
+Invoking: AVR Create Extended Listing
+avr-objdump -h -S StopWatch.elf  >"StopWatch.lss"
+Finished building: StopWatch.lss
+ 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega32 StopWatch.elf
+AVR Memory Usage
+----------------
+Device: atmega32
+
+Program:    6918 bytes (21.1% Full)
+(.text + .data + .bootloader)
+
+Data:         12 bytes (0.6% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+12:14:43 **** Incremental Build of configuration Debug for project StopWatch ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega32 StopWatch.elf
+AVR Memory Usage
+----------------
+Device: atmega32
+
+Program:    6918 bytes (21.1% Full)
+(.text + .data + .bootloader)
+
+Data:         12 bytes (0.6% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+12:15:10 **** Incremental Build of configuration Debug for project StopWatch ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega32 StopWatch.elf
+AVR Memory Usage
+----------------
+Device: atmega32
+
+Program:    6918 bytes (21.1% Full)
+(.text + .data + .bootloader)
+
+Data:         12 bytes (0.6% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 

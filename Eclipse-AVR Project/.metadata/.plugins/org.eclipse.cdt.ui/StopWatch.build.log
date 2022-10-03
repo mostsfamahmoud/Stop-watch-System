@@ -1,4 +1,4 @@
-11:47:37 **** Incremental Build of configuration Debug for project StopWatch ****
+12:15:10 **** Incremental Build of configuration Debug for project StopWatch ****
 make all 
 Invoking: Print Size
 avr-size --format=avr --mcu=atmega32 StopWatch.elf
@@ -16,5 +16,5 @@ Data:         12 bytes (0.6% Full)
 Finished building: sizedummy
  
 
-11:47:37 Build Finished. 0 errors, 0 warnings. (took 223ms)
+12:15:11 Build Finished. 0 errors, 0 warnings. (took 282ms)
 
