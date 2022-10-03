@@ -9,40 +9,40 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, DATA
   2 .bss          00000004  00800068  00800068  00001b9a  2**0
                   ALLOC
-  3 .stab         00001140  00000000  00000000  00001b9c  2**2
+  3 .stab         00001134  00000000  00000000  00001b9c  2**2
                   CONTENTS, READONLY, DEBUGGING
-  4 .stabstr      00000aa7  00000000  00000000  00002cdc  2**0
+  4 .stabstr      00000aa7  00000000  00000000  00002cd0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_aranges 00000140  00000000  00000000  00003783  2**0
+  5 .debug_aranges 00000140  00000000  00000000  00003777  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_pubnames 00000170  00000000  00000000  000038c3  2**0
+  6 .debug_pubnames 00000170  00000000  00000000  000038b7  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_info   00001c49  00000000  00000000  00003a33  2**0
+  7 .debug_info   00001c49  00000000  00000000  00003a27  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_abbrev 00000eeb  00000000  00000000  0000567c  2**0
+  8 .debug_abbrev 00000eeb  00000000  00000000  00005670  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_line   00000dad  00000000  00000000  00006567  2**0
+  9 .debug_line   00000dad  00000000  00000000  0000655b  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_frame  00000160  00000000  00000000  00007314  2**2
+ 10 .debug_frame  00000160  00000000  00000000  00007308  2**2
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_str    0000028d  00000000  00000000  00007474  2**0
+ 11 .debug_str    0000028d  00000000  00000000  00007468  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_loc    000007ce  00000000  00000000  00007701  2**0
+ 12 .debug_loc    000007ce  00000000  00000000  000076f5  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_ranges 00000050  00000000  00000000  00007ecf  2**0
+ 13 .debug_ranges 00000050  00000000  00000000  00007ec3  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
 
 00000000 <__vectors>:
        0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
-       4:	0c 94 76 07 	jmp	0xeec	; 0xeec <__vector_1>
-       8:	0c 94 1f 08 	jmp	0x103e	; 0x103e <__vector_2>
-       c:	0c 94 4e 08 	jmp	0x109c	; 0x109c <__vector_3>
+       4:	0c 94 09 06 	jmp	0xc12	; 0xc12 <__vector_1>
+       8:	0c 94 b2 06 	jmp	0xd64	; 0xd64 <__vector_2>
+       c:	0c 94 e1 06 	jmp	0xdc2	; 0xdc2 <__vector_3>
       10:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
       14:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
       18:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
-      1c:	0c 94 61 07 	jmp	0xec2	; 0xec2 <__vector_7>
+      1c:	0c 94 75 08 	jmp	0x10ea	; 0x10ea <__vector_7>
       20:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
       24:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
       28:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
@@ -95,7 +95,7 @@ Disassembly of section .text:
       80:	a8 36       	cpi	r26, 0x68	; 104
       82:	b1 07       	cpc	r27, r17
       84:	d9 f7       	brne	.-10     	; 0x7c <.do_copy_data_loop>
-      86:	0e 94 09 06 	call	0xc12	; 0xc12 <main>
+      86:	0e 94 1d 07 	call	0xe3a	; 0xe3a <main>
       8a:	0c 94 7d 0d 	jmp	0x1afa	; 0x1afa <_exit>
 
 0000008e <__bad_interrupt>:
@@ -1600,843 +1600,844 @@ void INT2_Init(void)
      c0e:	df 91       	pop	r29
      c10:	08 95       	ret
 
-00000c12 <main>:
-/*******************************************************************************
- *                                MAIN FUNCTION                                *
+00000c12 <__vector_1>:
+ *                          INTERRUPT SERVICE ROUTINES                         *
  *******************************************************************************/
 
-int main(void)
+/* INT0 (ISR) that is responsible for RESET the Stop-Watch timer */
+ISR(INT0_vect)
 {
-     c12:	df 93       	push	r29
-     c14:	cf 93       	push	r28
-     c16:	cd b7       	in	r28, 0x3d	; 61
-     c18:	de b7       	in	r29, 0x3e	; 62
-	GPIO_setPortDirection(PORTA_ID, 0x3F); /* Configure (PA0 ... PA5) as O/P pins (Control of the 7 Segment) */
-     c1a:	80 e0       	ldi	r24, 0x00	; 0
-     c1c:	6f e3       	ldi	r22, 0x3F	; 63
-     c1e:	0e 94 8a 08 	call	0x1114	; 0x1114 <GPIO_setPortDirection>
+     c12:	1f 92       	push	r1
+     c14:	0f 92       	push	r0
+     c16:	0f b6       	in	r0, 0x3f	; 63
+     c18:	0f 92       	push	r0
+     c1a:	11 24       	eor	r1, r1
+     c1c:	2f 93       	push	r18
+     c1e:	3f 93       	push	r19
+     c20:	4f 93       	push	r20
+     c22:	5f 93       	push	r21
+     c24:	6f 93       	push	r22
+     c26:	7f 93       	push	r23
+     c28:	8f 93       	push	r24
+     c2a:	9f 93       	push	r25
+     c2c:	af 93       	push	r26
+     c2e:	bf 93       	push	r27
+     c30:	ef 93       	push	r30
+     c32:	ff 93       	push	r31
+     c34:	df 93       	push	r29
+     c36:	cf 93       	push	r28
+     c38:	cd b7       	in	r28, 0x3d	; 61
+     c3a:	de b7       	in	r29, 0x3e	; 62
+     c3c:	2e 97       	sbiw	r28, 0x0e	; 14
+     c3e:	de bf       	out	0x3e, r29	; 62
+     c40:	cd bf       	out	0x3d, r28	; 61
+	resetDigits();       /* Reset all Stop-Watch digits to start from the beginning again */
+     c42:	0e 94 68 08 	call	0x10d0	; 0x10d0 <resetDigits>
 
-	GPIO_setPortDirection(PORTC_ID, 0x0F); /* Configure (PC0 ... PC3) as O/P pins */
-     c22:	82 e0       	ldi	r24, 0x02	; 2
-     c24:	6f e0       	ldi	r22, 0x0F	; 15
-     c26:	0e 94 8a 08 	call	0x1114	; 0x1114 <GPIO_setPortDirection>
-
-	Timer1_CTC_Init();    /* Initialize TIMER1 Compare mode */
-     c2a:	0e 94 2f 06 	call	0xc5e	; 0xc5e <Timer1_CTC_Init>
-
-	INT0_Init();          /* Initialize INT0 as RESET interrupt */
-     c2e:	0e 94 a3 05 	call	0xb46	; 0xb46 <INT0_Init>
-	INT1_Init();          /* Initialize INT1 as PAUSE interrupt */
-     c32:	0e 94 c9 05 	call	0xb92	; 0xb92 <INT1_Init>
-	INT2_Init();          /* Initialize INT2 as RESUME interrupt */
-     c36:	0e 94 ea 05 	call	0xbd4	; 0xbd4 <INT2_Init>
-
-	SET_BIT(SREG, I_BIT); /* Enable global interrupts in MC by setting I-bit */
-     c3a:	af e5       	ldi	r26, 0x5F	; 95
-     c3c:	b0 e0       	ldi	r27, 0x00	; 0
-     c3e:	ef e5       	ldi	r30, 0x5F	; 95
-     c40:	f0 e0       	ldi	r31, 0x00	; 0
-     c42:	80 81       	ld	r24, Z
-     c44:	80 68       	ori	r24, 0x80	; 128
-     c46:	8c 93       	st	X, r24
-
-	while (1)
-	{
-		StopWatch_Multiplexing_Mode();
-     c48:	0e 94 4c 06 	call	0xc98	; 0xc98 <StopWatch_Multiplexing_Mode>
-
-		if (g_Interrupt_Flag == 1)
-     c4c:	80 91 6b 00 	lds	r24, 0x006B
-     c50:	81 30       	cpi	r24, 0x01	; 1
-     c52:	d1 f7       	brne	.-12     	; 0xc48 <main+0x36>
-		{
-			StopWatch_TimeProcessing();
-     c54:	0e 94 2b 07 	call	0xe56	; 0xe56 <StopWatch_TimeProcessing>
-
-			g_Interrupt_Flag = 0;     /* Clear flag to be Set when timer interrupt is triggered again */
-     c58:	10 92 6b 00 	sts	0x006B, r1
-     c5c:	f5 cf       	rjmp	.-22     	; 0xc48 <main+0x36>
-
-00000c5e <Timer1_CTC_Init>:
-/*******************************************************************************
- *                            FUNCTIONS DEFINITIONS                            *
- *******************************************************************************/
-
-void Timer1_CTC_Init(void)
-{
-     c5e:	df 93       	push	r29
-     c60:	cf 93       	push	r28
-     c62:	cd b7       	in	r28, 0x3d	; 61
-     c64:	de b7       	in	r29, 0x3e	; 62
-	TCNT1 = 0;              /* Set timer1 initial count to zero */
-     c66:	ec e4       	ldi	r30, 0x4C	; 76
-     c68:	f0 e0       	ldi	r31, 0x00	; 0
-     c6a:	11 82       	std	Z+1, r1	; 0x01
-     c6c:	10 82       	st	Z, r1
-
-	OCR1A = 977;            /* Set the Compare value to 977 ( To tigger an interrupt each second ) */
-     c6e:	ea e4       	ldi	r30, 0x4A	; 74
-     c70:	f0 e0       	ldi	r31, 0x00	; 0
-     c72:	81 ed       	ldi	r24, 0xD1	; 209
-     c74:	93 e0       	ldi	r25, 0x03	; 3
-     c76:	91 83       	std	Z+1, r25	; 0x01
-     c78:	80 83       	st	Z, r24
-
-	TIMSK = (1 << OCIE1A);  /* Enable Timer1 Compare A Interrupt */
-     c7a:	e9 e5       	ldi	r30, 0x59	; 89
-     c7c:	f0 e0       	ldi	r31, 0x00	; 0
-     c7e:	80 e1       	ldi	r24, 0x10	; 16
-     c80:	80 83       	st	Z, r24
-	      COM1A1=1 COM1A0=0 COM1B0=0 COM1B1=1
-
-	 * 2. FOC1A=1 FOC1B=0
-	 * 3. CTC Mode WGM10=0 WGM11=0 (Mode Number 4)
-	 */
-	TCCR1A = (1 << FOC1A) | (1 << COM1A1);
-     c82:	ef e4       	ldi	r30, 0x4F	; 79
-     c84:	f0 e0       	ldi	r31, 0x00	; 0
-     c86:	88 e8       	ldi	r24, 0x88	; 136
-     c88:	80 83       	st	Z, r24
-	/* Configure timer control register TCCR1B:
-	 * 1. CTC Mode WGM12=1 WGM13=0 (Mode Number 4)
-	 * 2. Prescaler = F_CPU/1024
-	      CS10=1 CS11=0 CS12=1
-	 */
-	TCCR1B = (1 << WGM12) | (1 << CS12) | (1 << CS10);
-     c8a:	ee e4       	ldi	r30, 0x4E	; 78
-     c8c:	f0 e0       	ldi	r31, 0x00	; 0
-     c8e:	8d e0       	ldi	r24, 0x0D	; 13
-     c90:	80 83       	st	Z, r24
-}
-     c92:	cf 91       	pop	r28
-     c94:	df 91       	pop	r29
-     c96:	08 95       	ret
-
-00000c98 <StopWatch_Multiplexing_Mode>:
- * Description:
- * One 7-segment display is driven by the Microcontroller at a time and the rest are OFF.
- * It keeps switching the displays using transistors.
- */
-void StopWatch_Multiplexing_Mode(void)
-{
-     c98:	df 93       	push	r29
-     c9a:	cf 93       	push	r28
-     c9c:	cd b7       	in	r28, 0x3d	; 61
-     c9e:	de b7       	in	r29, 0x3e	; 62
-     ca0:	65 97       	sbiw	r28, 0x15	; 21
-     ca2:	0f b6       	in	r0, 0x3f	; 63
-     ca4:	f8 94       	cli
-     ca6:	de bf       	out	0x3e, r29	; 62
-     ca8:	0f be       	out	0x3f, r0	; 63
-     caa:	cd bf       	out	0x3d, r28	; 61
-	 * To get second digit of Seconds , Use g_Sec / 10
-	 * That technique is also applied on g_Min , g_Hour
-	 */
-	uint8_t timeDigits[] = {(g_Sec % 10),(g_Sec / 10),
-			                (g_Min % 10),(g_Min / 10),
-			                (g_Hour % 10),(g_Hour / 10)};      /* Array that contains the Stop-Watch digits */
-     cac:	80 91 68 00 	lds	r24, 0x0068
-     cb0:	9a e0       	ldi	r25, 0x0A	; 10
-     cb2:	69 2f       	mov	r22, r25
-     cb4:	0e 94 3a 0d 	call	0x1a74	; 0x1a74 <__udivmodqi4>
-     cb8:	89 2f       	mov	r24, r25
-     cba:	28 2f       	mov	r18, r24
-     cbc:	80 91 68 00 	lds	r24, 0x0068
-     cc0:	9a e0       	ldi	r25, 0x0A	; 10
-     cc2:	69 2f       	mov	r22, r25
-     cc4:	0e 94 3a 0d 	call	0x1a74	; 0x1a74 <__udivmodqi4>
-     cc8:	38 2f       	mov	r19, r24
-     cca:	80 91 69 00 	lds	r24, 0x0069
-     cce:	9a e0       	ldi	r25, 0x0A	; 10
-     cd0:	69 2f       	mov	r22, r25
-     cd2:	0e 94 3a 0d 	call	0x1a74	; 0x1a74 <__udivmodqi4>
-     cd6:	89 2f       	mov	r24, r25
-     cd8:	48 2f       	mov	r20, r24
-     cda:	80 91 69 00 	lds	r24, 0x0069
-     cde:	9a e0       	ldi	r25, 0x0A	; 10
-     ce0:	69 2f       	mov	r22, r25
-     ce2:	0e 94 3a 0d 	call	0x1a74	; 0x1a74 <__udivmodqi4>
-     ce6:	58 2f       	mov	r21, r24
-     ce8:	80 91 6a 00 	lds	r24, 0x006A
-     cec:	9a e0       	ldi	r25, 0x0A	; 10
-     cee:	69 2f       	mov	r22, r25
-     cf0:	0e 94 3a 0d 	call	0x1a74	; 0x1a74 <__udivmodqi4>
-     cf4:	89 2f       	mov	r24, r25
-     cf6:	e8 2f       	mov	r30, r24
-     cf8:	80 91 6a 00 	lds	r24, 0x006A
-     cfc:	9a e0       	ldi	r25, 0x0A	; 10
-     cfe:	69 2f       	mov	r22, r25
-     d00:	0e 94 3a 0d 	call	0x1a74	; 0x1a74 <__udivmodqi4>
-     d04:	28 8b       	std	Y+16, r18	; 0x10
-     d06:	39 8b       	std	Y+17, r19	; 0x11
-     d08:	4a 8b       	std	Y+18, r20	; 0x12
-     d0a:	5b 8b       	std	Y+19, r21	; 0x13
-     d0c:	ec 8b       	std	Y+20, r30	; 0x14
-     d0e:	8d 8b       	std	Y+21, r24	; 0x15
-
-	for(uint8_t count = 0; count < 6; count++)
-     d10:	1f 86       	std	Y+15, r1	; 0x0f
-     d12:	94 c0       	rjmp	.+296    	; 0xe3c <StopWatch_Multiplexing_Mode+0x1a4>
-	{
-
-		PORTA = (1 << count);        /* Enable All 7-Segments (one at a time) */
-     d14:	eb e3       	ldi	r30, 0x3B	; 59
-     d16:	f0 e0       	ldi	r31, 0x00	; 0
-     d18:	8f 85       	ldd	r24, Y+15	; 0x0f
-     d1a:	28 2f       	mov	r18, r24
-     d1c:	30 e0       	ldi	r19, 0x00	; 0
-     d1e:	81 e0       	ldi	r24, 0x01	; 1
-     d20:	90 e0       	ldi	r25, 0x00	; 0
-     d22:	02 c0       	rjmp	.+4      	; 0xd28 <StopWatch_Multiplexing_Mode+0x90>
-     d24:	88 0f       	add	r24, r24
-     d26:	99 1f       	adc	r25, r25
-     d28:	2a 95       	dec	r18
-     d2a:	e2 f7       	brpl	.-8      	; 0xd24 <StopWatch_Multiplexing_Mode+0x8c>
-     d2c:	80 83       	st	Z, r24
-
-		/* First:  Clearing the display each iteration
-		 * Second: Displaying the corresponding count in the enabled 7-Segment
-		 */
-		PORTC = (PORTC & 0xF0) | timeDigits[count];
-     d2e:	a5 e3       	ldi	r26, 0x35	; 53
-     d30:	b0 e0       	ldi	r27, 0x00	; 0
-     d32:	e5 e3       	ldi	r30, 0x35	; 53
-     d34:	f0 e0       	ldi	r31, 0x00	; 0
-     d36:	80 81       	ld	r24, Z
-     d38:	48 2f       	mov	r20, r24
-     d3a:	40 7f       	andi	r20, 0xF0	; 240
-     d3c:	8f 85       	ldd	r24, Y+15	; 0x0f
-     d3e:	28 2f       	mov	r18, r24
-     d40:	30 e0       	ldi	r19, 0x00	; 0
-     d42:	ce 01       	movw	r24, r28
-     d44:	40 96       	adiw	r24, 0x10	; 16
-     d46:	fc 01       	movw	r30, r24
-     d48:	e2 0f       	add	r30, r18
-     d4a:	f3 1f       	adc	r31, r19
-     d4c:	80 81       	ld	r24, Z
-     d4e:	84 2b       	or	r24, r20
-     d50:	8c 93       	st	X, r24
-     d52:	80 e0       	ldi	r24, 0x00	; 0
-     d54:	90 e0       	ldi	r25, 0x00	; 0
-     d56:	a0 e8       	ldi	r26, 0x80	; 128
-     d58:	b0 e4       	ldi	r27, 0x40	; 64
-     d5a:	8b 87       	std	Y+11, r24	; 0x0b
-     d5c:	9c 87       	std	Y+12, r25	; 0x0c
-     d5e:	ad 87       	std	Y+13, r26	; 0x0d
-     d60:	be 87       	std	Y+14, r27	; 0x0e
+	PORTC &= 0xF0;       /* Clear all 7-Segment displays */
+     c46:	a5 e3       	ldi	r26, 0x35	; 53
+     c48:	b0 e0       	ldi	r27, 0x00	; 0
+     c4a:	e5 e3       	ldi	r30, 0x35	; 53
+     c4c:	f0 e0       	ldi	r31, 0x00	; 0
+     c4e:	80 81       	ld	r24, Z
+     c50:	80 7f       	andi	r24, 0xF0	; 240
+     c52:	8c 93       	st	X, r24
+     c54:	80 e0       	ldi	r24, 0x00	; 0
+     c56:	90 e0       	ldi	r25, 0x00	; 0
+     c58:	a0 ef       	ldi	r26, 0xF0	; 240
+     c5a:	b1 e4       	ldi	r27, 0x41	; 65
+     c5c:	8b 87       	std	Y+11, r24	; 0x0b
+     c5e:	9c 87       	std	Y+12, r25	; 0x0c
+     c60:	ad 87       	std	Y+13, r26	; 0x0d
+     c62:	be 87       	std	Y+14, r27	; 0x0e
  */
 void
 _delay_ms(double __ms)
 {
 	uint16_t __ticks;
 	double __tmp = ((F_CPU) / 4e3) * __ms;
-     d62:	6b 85       	ldd	r22, Y+11	; 0x0b
-     d64:	7c 85       	ldd	r23, Y+12	; 0x0c
-     d66:	8d 85       	ldd	r24, Y+13	; 0x0d
-     d68:	9e 85       	ldd	r25, Y+14	; 0x0e
-     d6a:	20 e0       	ldi	r18, 0x00	; 0
-     d6c:	30 e0       	ldi	r19, 0x00	; 0
-     d6e:	4a e7       	ldi	r20, 0x7A	; 122
-     d70:	53 e4       	ldi	r21, 0x43	; 67
-     d72:	0e 94 1f 02 	call	0x43e	; 0x43e <__mulsf3>
-     d76:	dc 01       	movw	r26, r24
-     d78:	cb 01       	movw	r24, r22
-     d7a:	8f 83       	std	Y+7, r24	; 0x07
-     d7c:	98 87       	std	Y+8, r25	; 0x08
-     d7e:	a9 87       	std	Y+9, r26	; 0x09
-     d80:	ba 87       	std	Y+10, r27	; 0x0a
+     c64:	6b 85       	ldd	r22, Y+11	; 0x0b
+     c66:	7c 85       	ldd	r23, Y+12	; 0x0c
+     c68:	8d 85       	ldd	r24, Y+13	; 0x0d
+     c6a:	9e 85       	ldd	r25, Y+14	; 0x0e
+     c6c:	20 e0       	ldi	r18, 0x00	; 0
+     c6e:	30 e0       	ldi	r19, 0x00	; 0
+     c70:	4a e7       	ldi	r20, 0x7A	; 122
+     c72:	53 e4       	ldi	r21, 0x43	; 67
+     c74:	0e 94 1f 02 	call	0x43e	; 0x43e <__mulsf3>
+     c78:	dc 01       	movw	r26, r24
+     c7a:	cb 01       	movw	r24, r22
+     c7c:	8f 83       	std	Y+7, r24	; 0x07
+     c7e:	98 87       	std	Y+8, r25	; 0x08
+     c80:	a9 87       	std	Y+9, r26	; 0x09
+     c82:	ba 87       	std	Y+10, r27	; 0x0a
 	if (__tmp < 1.0)
-     d82:	6f 81       	ldd	r22, Y+7	; 0x07
-     d84:	78 85       	ldd	r23, Y+8	; 0x08
-     d86:	89 85       	ldd	r24, Y+9	; 0x09
-     d88:	9a 85       	ldd	r25, Y+10	; 0x0a
-     d8a:	20 e0       	ldi	r18, 0x00	; 0
-     d8c:	30 e0       	ldi	r19, 0x00	; 0
-     d8e:	40 e8       	ldi	r20, 0x80	; 128
-     d90:	5f e3       	ldi	r21, 0x3F	; 63
-     d92:	0e 94 79 03 	call	0x6f2	; 0x6f2 <__ltsf2>
-     d96:	88 23       	and	r24, r24
-     d98:	2c f4       	brge	.+10     	; 0xda4 <StopWatch_Multiplexing_Mode+0x10c>
+     c84:	6f 81       	ldd	r22, Y+7	; 0x07
+     c86:	78 85       	ldd	r23, Y+8	; 0x08
+     c88:	89 85       	ldd	r24, Y+9	; 0x09
+     c8a:	9a 85       	ldd	r25, Y+10	; 0x0a
+     c8c:	20 e0       	ldi	r18, 0x00	; 0
+     c8e:	30 e0       	ldi	r19, 0x00	; 0
+     c90:	40 e8       	ldi	r20, 0x80	; 128
+     c92:	5f e3       	ldi	r21, 0x3F	; 63
+     c94:	0e 94 79 03 	call	0x6f2	; 0x6f2 <__ltsf2>
+     c98:	88 23       	and	r24, r24
+     c9a:	2c f4       	brge	.+10     	; 0xca6 <__vector_1+0x94>
 		__ticks = 1;
-     d9a:	81 e0       	ldi	r24, 0x01	; 1
-     d9c:	90 e0       	ldi	r25, 0x00	; 0
-     d9e:	9e 83       	std	Y+6, r25	; 0x06
-     da0:	8d 83       	std	Y+5, r24	; 0x05
-     da2:	3f c0       	rjmp	.+126    	; 0xe22 <StopWatch_Multiplexing_Mode+0x18a>
+     c9c:	81 e0       	ldi	r24, 0x01	; 1
+     c9e:	90 e0       	ldi	r25, 0x00	; 0
+     ca0:	9e 83       	std	Y+6, r25	; 0x06
+     ca2:	8d 83       	std	Y+5, r24	; 0x05
+     ca4:	3f c0       	rjmp	.+126    	; 0xd24 <__vector_1+0x112>
 	else if (__tmp > 65535)
-     da4:	6f 81       	ldd	r22, Y+7	; 0x07
-     da6:	78 85       	ldd	r23, Y+8	; 0x08
-     da8:	89 85       	ldd	r24, Y+9	; 0x09
-     daa:	9a 85       	ldd	r25, Y+10	; 0x0a
-     dac:	20 e0       	ldi	r18, 0x00	; 0
-     dae:	3f ef       	ldi	r19, 0xFF	; 255
-     db0:	4f e7       	ldi	r20, 0x7F	; 127
-     db2:	57 e4       	ldi	r21, 0x47	; 71
-     db4:	0e 94 19 03 	call	0x632	; 0x632 <__gtsf2>
-     db8:	18 16       	cp	r1, r24
-     dba:	4c f5       	brge	.+82     	; 0xe0e <StopWatch_Multiplexing_Mode+0x176>
+     ca6:	6f 81       	ldd	r22, Y+7	; 0x07
+     ca8:	78 85       	ldd	r23, Y+8	; 0x08
+     caa:	89 85       	ldd	r24, Y+9	; 0x09
+     cac:	9a 85       	ldd	r25, Y+10	; 0x0a
+     cae:	20 e0       	ldi	r18, 0x00	; 0
+     cb0:	3f ef       	ldi	r19, 0xFF	; 255
+     cb2:	4f e7       	ldi	r20, 0x7F	; 127
+     cb4:	57 e4       	ldi	r21, 0x47	; 71
+     cb6:	0e 94 19 03 	call	0x632	; 0x632 <__gtsf2>
+     cba:	18 16       	cp	r1, r24
+     cbc:	4c f5       	brge	.+82     	; 0xd10 <__vector_1+0xfe>
 	{
 		//	__ticks = requested delay in 1/10 ms
 		__ticks = (uint16_t) (__ms * 10.0);
-     dbc:	6b 85       	ldd	r22, Y+11	; 0x0b
-     dbe:	7c 85       	ldd	r23, Y+12	; 0x0c
-     dc0:	8d 85       	ldd	r24, Y+13	; 0x0d
-     dc2:	9e 85       	ldd	r25, Y+14	; 0x0e
-     dc4:	20 e0       	ldi	r18, 0x00	; 0
-     dc6:	30 e0       	ldi	r19, 0x00	; 0
-     dc8:	40 e2       	ldi	r20, 0x20	; 32
-     dca:	51 e4       	ldi	r21, 0x41	; 65
-     dcc:	0e 94 1f 02 	call	0x43e	; 0x43e <__mulsf3>
-     dd0:	dc 01       	movw	r26, r24
-     dd2:	cb 01       	movw	r24, r22
-     dd4:	bc 01       	movw	r22, r24
-     dd6:	cd 01       	movw	r24, r26
-     dd8:	0e 94 49 00 	call	0x92	; 0x92 <__fixunssfsi>
-     ddc:	dc 01       	movw	r26, r24
-     dde:	cb 01       	movw	r24, r22
-     de0:	9e 83       	std	Y+6, r25	; 0x06
-     de2:	8d 83       	std	Y+5, r24	; 0x05
-     de4:	0f c0       	rjmp	.+30     	; 0xe04 <StopWatch_Multiplexing_Mode+0x16c>
-     de6:	89 e1       	ldi	r24, 0x19	; 25
-     de8:	90 e0       	ldi	r25, 0x00	; 0
-     dea:	9c 83       	std	Y+4, r25	; 0x04
-     dec:	8b 83       	std	Y+3, r24	; 0x03
+     cbe:	6b 85       	ldd	r22, Y+11	; 0x0b
+     cc0:	7c 85       	ldd	r23, Y+12	; 0x0c
+     cc2:	8d 85       	ldd	r24, Y+13	; 0x0d
+     cc4:	9e 85       	ldd	r25, Y+14	; 0x0e
+     cc6:	20 e0       	ldi	r18, 0x00	; 0
+     cc8:	30 e0       	ldi	r19, 0x00	; 0
+     cca:	40 e2       	ldi	r20, 0x20	; 32
+     ccc:	51 e4       	ldi	r21, 0x41	; 65
+     cce:	0e 94 1f 02 	call	0x43e	; 0x43e <__mulsf3>
+     cd2:	dc 01       	movw	r26, r24
+     cd4:	cb 01       	movw	r24, r22
+     cd6:	bc 01       	movw	r22, r24
+     cd8:	cd 01       	movw	r24, r26
+     cda:	0e 94 49 00 	call	0x92	; 0x92 <__fixunssfsi>
+     cde:	dc 01       	movw	r26, r24
+     ce0:	cb 01       	movw	r24, r22
+     ce2:	9e 83       	std	Y+6, r25	; 0x06
+     ce4:	8d 83       	std	Y+5, r24	; 0x05
+     ce6:	0f c0       	rjmp	.+30     	; 0xd06 <__vector_1+0xf4>
+     ce8:	89 e1       	ldi	r24, 0x19	; 25
+     cea:	90 e0       	ldi	r25, 0x00	; 0
+     cec:	9c 83       	std	Y+4, r25	; 0x04
+     cee:	8b 83       	std	Y+3, r24	; 0x03
     milliseconds can be achieved.
  */
 void
 _delay_loop_2(uint16_t __count)
 {
 	__asm__ volatile (
-     dee:	8b 81       	ldd	r24, Y+3	; 0x03
-     df0:	9c 81       	ldd	r25, Y+4	; 0x04
-     df2:	01 97       	sbiw	r24, 0x01	; 1
-     df4:	f1 f7       	brne	.-4      	; 0xdf2 <StopWatch_Multiplexing_Mode+0x15a>
-     df6:	9c 83       	std	Y+4, r25	; 0x04
-     df8:	8b 83       	std	Y+3, r24	; 0x03
+     cf0:	8b 81       	ldd	r24, Y+3	; 0x03
+     cf2:	9c 81       	ldd	r25, Y+4	; 0x04
+     cf4:	01 97       	sbiw	r24, 0x01	; 1
+     cf6:	f1 f7       	brne	.-4      	; 0xcf4 <__vector_1+0xe2>
+     cf8:	9c 83       	std	Y+4, r25	; 0x04
+     cfa:	8b 83       	std	Y+3, r24	; 0x03
 		while(__ticks)
 		{
 			// wait 1/10 ms
 			_delay_loop_2(((F_CPU) / 4e3) / 10);
 			__ticks --;
-     dfa:	8d 81       	ldd	r24, Y+5	; 0x05
-     dfc:	9e 81       	ldd	r25, Y+6	; 0x06
-     dfe:	01 97       	sbiw	r24, 0x01	; 1
-     e00:	9e 83       	std	Y+6, r25	; 0x06
-     e02:	8d 83       	std	Y+5, r24	; 0x05
+     cfc:	8d 81       	ldd	r24, Y+5	; 0x05
+     cfe:	9e 81       	ldd	r25, Y+6	; 0x06
+     d00:	01 97       	sbiw	r24, 0x01	; 1
+     d02:	9e 83       	std	Y+6, r25	; 0x06
+     d04:	8d 83       	std	Y+5, r24	; 0x05
 		__ticks = 1;
 	else if (__tmp > 65535)
 	{
 		//	__ticks = requested delay in 1/10 ms
 		__ticks = (uint16_t) (__ms * 10.0);
 		while(__ticks)
-     e04:	8d 81       	ldd	r24, Y+5	; 0x05
-     e06:	9e 81       	ldd	r25, Y+6	; 0x06
-     e08:	00 97       	sbiw	r24, 0x00	; 0
-     e0a:	69 f7       	brne	.-38     	; 0xde6 <StopWatch_Multiplexing_Mode+0x14e>
-     e0c:	14 c0       	rjmp	.+40     	; 0xe36 <StopWatch_Multiplexing_Mode+0x19e>
+     d06:	8d 81       	ldd	r24, Y+5	; 0x05
+     d08:	9e 81       	ldd	r25, Y+6	; 0x06
+     d0a:	00 97       	sbiw	r24, 0x00	; 0
+     d0c:	69 f7       	brne	.-38     	; 0xce8 <__vector_1+0xd6>
+     d0e:	14 c0       	rjmp	.+40     	; 0xd38 <__vector_1+0x126>
 			__ticks --;
 		}
 		return;
 	}
 	else
 		__ticks = (uint16_t)__tmp;
-     e0e:	6f 81       	ldd	r22, Y+7	; 0x07
-     e10:	78 85       	ldd	r23, Y+8	; 0x08
-     e12:	89 85       	ldd	r24, Y+9	; 0x09
-     e14:	9a 85       	ldd	r25, Y+10	; 0x0a
-     e16:	0e 94 49 00 	call	0x92	; 0x92 <__fixunssfsi>
-     e1a:	dc 01       	movw	r26, r24
-     e1c:	cb 01       	movw	r24, r22
-     e1e:	9e 83       	std	Y+6, r25	; 0x06
-     e20:	8d 83       	std	Y+5, r24	; 0x05
-     e22:	8d 81       	ldd	r24, Y+5	; 0x05
-     e24:	9e 81       	ldd	r25, Y+6	; 0x06
-     e26:	9a 83       	std	Y+2, r25	; 0x02
-     e28:	89 83       	std	Y+1, r24	; 0x01
-     e2a:	89 81       	ldd	r24, Y+1	; 0x01
-     e2c:	9a 81       	ldd	r25, Y+2	; 0x02
-     e2e:	01 97       	sbiw	r24, 0x01	; 1
-     e30:	f1 f7       	brne	.-4      	; 0xe2e <StopWatch_Multiplexing_Mode+0x196>
-     e32:	9a 83       	std	Y+2, r25	; 0x02
-     e34:	89 83       	std	Y+1, r24	; 0x01
-	 */
-	uint8_t timeDigits[] = {(g_Sec % 10),(g_Sec / 10),
-			                (g_Min % 10),(g_Min / 10),
-			                (g_Hour % 10),(g_Hour / 10)};      /* Array that contains the Stop-Watch digits */
-
-	for(uint8_t count = 0; count < 6; count++)
-     e36:	8f 85       	ldd	r24, Y+15	; 0x0f
-     e38:	8f 5f       	subi	r24, 0xFF	; 255
-     e3a:	8f 87       	std	Y+15, r24	; 0x0f
-     e3c:	8f 85       	ldd	r24, Y+15	; 0x0f
-     e3e:	86 30       	cpi	r24, 0x06	; 6
-     e40:	08 f4       	brcc	.+2      	; 0xe44 <StopWatch_Multiplexing_Mode+0x1ac>
-     e42:	68 cf       	rjmp	.-304    	; 0xd14 <StopWatch_Multiplexing_Mode+0x7c>
-		 */
-		PORTC = (PORTC & 0xF0) | timeDigits[count];
-
-		_delay_ms(4);     /* Delay between each 7-segment enable to make the Stop-Watch display looks normal */
-	}
-}
-     e44:	65 96       	adiw	r28, 0x15	; 21
-     e46:	0f b6       	in	r0, 0x3f	; 63
-     e48:	f8 94       	cli
-     e4a:	de bf       	out	0x3e, r29	; 62
-     e4c:	0f be       	out	0x3f, r0	; 63
-     e4e:	cd bf       	out	0x3d, r28	; 61
-     e50:	cf 91       	pop	r28
-     e52:	df 91       	pop	r29
-     e54:	08 95       	ret
-
-00000e56 <StopWatch_TimeProcessing>:
-
-void StopWatch_TimeProcessing(void)
-{
-     e56:	df 93       	push	r29
-     e58:	cf 93       	push	r28
-     e5a:	cd b7       	in	r28, 0x3d	; 61
-     e5c:	de b7       	in	r29, 0x3e	; 62
-	/* Check if Seconds exceeded the range (0 --> 59) or not */
-	if (g_Sec == 59)
-     e5e:	80 91 68 00 	lds	r24, 0x0068
-     e62:	8b 33       	cpi	r24, 0x3B	; 59
-     e64:	41 f4       	brne	.+16     	; 0xe76 <StopWatch_TimeProcessing+0x20>
-	{
-		g_Sec = 0;       /* Clear Seconds if exceeded */
-     e66:	10 92 68 00 	sts	0x0068, r1
-		g_Min++;         /* Increment Mintues */
-     e6a:	80 91 69 00 	lds	r24, 0x0069
-     e6e:	8f 5f       	subi	r24, 0xFF	; 255
-     e70:	80 93 69 00 	sts	0x0069, r24
-     e74:	05 c0       	rjmp	.+10     	; 0xe80 <StopWatch_TimeProcessing+0x2a>
-	}
-	else
-		g_Sec++;         /* Increment Seconds if not exceeded */
-     e76:	80 91 68 00 	lds	r24, 0x0068
-     e7a:	8f 5f       	subi	r24, 0xFF	; 255
-     e7c:	80 93 68 00 	sts	0x0068, r24
-
-	/* Check if Mintues exceeded the range (0 --> 59) or not */
-	if (g_Min > 59)
-     e80:	80 91 69 00 	lds	r24, 0x0069
-     e84:	8c 33       	cpi	r24, 0x3C	; 60
-     e86:	38 f0       	brcs	.+14     	; 0xe96 <StopWatch_TimeProcessing+0x40>
-	{
-		g_Min = 0;      /* Clear Mintues if exceeded */
-     e88:	10 92 69 00 	sts	0x0069, r1
-		g_Hour++;       /* Increment Hours */
-     e8c:	80 91 6a 00 	lds	r24, 0x006A
-     e90:	8f 5f       	subi	r24, 0xFF	; 255
-     e92:	80 93 6a 00 	sts	0x006A, r24
-	}
-
-	/* Check if Hours exceeded the range (0 --> 23 in one day) or not */
-	if (g_Hour > 23)
-     e96:	80 91 6a 00 	lds	r24, 0x006A
-     e9a:	88 31       	cpi	r24, 0x18	; 24
-     e9c:	10 f0       	brcs	.+4      	; 0xea2 <StopWatch_TimeProcessing+0x4c>
-	{
-		g_Hour = 0;    /* Clear Hours if exceeded */
-     e9e:	10 92 6a 00 	sts	0x006A, r1
-		               /* This case is like a Reset operation when overflow occurs in Stop-Watch timer */
-	}
-}
-     ea2:	cf 91       	pop	r28
-     ea4:	df 91       	pop	r29
-     ea6:	08 95       	ret
-
-00000ea8 <resetDigits>:
-
-/* Function to reset all Stop-Watch Digits */
-void resetDigits(void)
-{
-     ea8:	df 93       	push	r29
-     eaa:	cf 93       	push	r28
-     eac:	cd b7       	in	r28, 0x3d	; 61
-     eae:	de b7       	in	r29, 0x3e	; 62
-	g_Sec = 0;
-     eb0:	10 92 68 00 	sts	0x0068, r1
-	g_Min = 0;
-     eb4:	10 92 69 00 	sts	0x0069, r1
-	g_Hour = 0;
-     eb8:	10 92 6a 00 	sts	0x006A, r1
-}
-     ebc:	cf 91       	pop	r28
-     ebe:	df 91       	pop	r29
-     ec0:	08 95       	ret
-
-00000ec2 <__vector_7>:
-/*******************************************************************************
- *                          INTERRUPT SERVICE ROUTINES                         *
- *******************************************************************************/
-
-ISR(TIMER1_COMPA_vect)
-{
-     ec2:	1f 92       	push	r1
-     ec4:	0f 92       	push	r0
-     ec6:	0f b6       	in	r0, 0x3f	; 63
-     ec8:	0f 92       	push	r0
-     eca:	11 24       	eor	r1, r1
-     ecc:	8f 93       	push	r24
-     ece:	df 93       	push	r29
-     ed0:	cf 93       	push	r28
-     ed2:	cd b7       	in	r28, 0x3d	; 61
-     ed4:	de b7       	in	r29, 0x3e	; 62
-	g_Interrupt_Flag = 1;    /* Set this global interrupt flag as an indication of Timer1 interrupt */
-     ed6:	81 e0       	ldi	r24, 0x01	; 1
-     ed8:	80 93 6b 00 	sts	0x006B, r24
-}
-     edc:	cf 91       	pop	r28
-     ede:	df 91       	pop	r29
-     ee0:	8f 91       	pop	r24
-     ee2:	0f 90       	pop	r0
-     ee4:	0f be       	out	0x3f, r0	; 63
-     ee6:	0f 90       	pop	r0
-     ee8:	1f 90       	pop	r1
-     eea:	18 95       	reti
-
-00000eec <__vector_1>:
-
-
-/* INT0 (ISR) that is responsible for RESET the Stop-Watch timer */
-ISR(INT0_vect)
-{
-     eec:	1f 92       	push	r1
-     eee:	0f 92       	push	r0
-     ef0:	0f b6       	in	r0, 0x3f	; 63
-     ef2:	0f 92       	push	r0
-     ef4:	11 24       	eor	r1, r1
-     ef6:	2f 93       	push	r18
-     ef8:	3f 93       	push	r19
-     efa:	4f 93       	push	r20
-     efc:	5f 93       	push	r21
-     efe:	6f 93       	push	r22
-     f00:	7f 93       	push	r23
-     f02:	8f 93       	push	r24
-     f04:	9f 93       	push	r25
-     f06:	af 93       	push	r26
-     f08:	bf 93       	push	r27
-     f0a:	ef 93       	push	r30
-     f0c:	ff 93       	push	r31
-     f0e:	df 93       	push	r29
-     f10:	cf 93       	push	r28
-     f12:	cd b7       	in	r28, 0x3d	; 61
-     f14:	de b7       	in	r29, 0x3e	; 62
-     f16:	2e 97       	sbiw	r28, 0x0e	; 14
-     f18:	de bf       	out	0x3e, r29	; 62
-     f1a:	cd bf       	out	0x3d, r28	; 61
-	resetDigits();       /* Reset all Stop-Watch digits to start from the beginning again */
-     f1c:	0e 94 54 07 	call	0xea8	; 0xea8 <resetDigits>
-
-	PORTC &= 0xF0;       /* Clear all 7-Segment displays */
-     f20:	a5 e3       	ldi	r26, 0x35	; 53
-     f22:	b0 e0       	ldi	r27, 0x00	; 0
-     f24:	e5 e3       	ldi	r30, 0x35	; 53
-     f26:	f0 e0       	ldi	r31, 0x00	; 0
-     f28:	80 81       	ld	r24, Z
-     f2a:	80 7f       	andi	r24, 0xF0	; 240
-     f2c:	8c 93       	st	X, r24
-     f2e:	80 e0       	ldi	r24, 0x00	; 0
-     f30:	90 e0       	ldi	r25, 0x00	; 0
-     f32:	a0 ef       	ldi	r26, 0xF0	; 240
-     f34:	b1 e4       	ldi	r27, 0x41	; 65
-     f36:	8b 87       	std	Y+11, r24	; 0x0b
-     f38:	9c 87       	std	Y+12, r25	; 0x0c
-     f3a:	ad 87       	std	Y+13, r26	; 0x0d
-     f3c:	be 87       	std	Y+14, r27	; 0x0e
- */
-void
-_delay_ms(double __ms)
-{
-	uint16_t __ticks;
-	double __tmp = ((F_CPU) / 4e3) * __ms;
-     f3e:	6b 85       	ldd	r22, Y+11	; 0x0b
-     f40:	7c 85       	ldd	r23, Y+12	; 0x0c
-     f42:	8d 85       	ldd	r24, Y+13	; 0x0d
-     f44:	9e 85       	ldd	r25, Y+14	; 0x0e
-     f46:	20 e0       	ldi	r18, 0x00	; 0
-     f48:	30 e0       	ldi	r19, 0x00	; 0
-     f4a:	4a e7       	ldi	r20, 0x7A	; 122
-     f4c:	53 e4       	ldi	r21, 0x43	; 67
-     f4e:	0e 94 1f 02 	call	0x43e	; 0x43e <__mulsf3>
-     f52:	dc 01       	movw	r26, r24
-     f54:	cb 01       	movw	r24, r22
-     f56:	8f 83       	std	Y+7, r24	; 0x07
-     f58:	98 87       	std	Y+8, r25	; 0x08
-     f5a:	a9 87       	std	Y+9, r26	; 0x09
-     f5c:	ba 87       	std	Y+10, r27	; 0x0a
-	if (__tmp < 1.0)
-     f5e:	6f 81       	ldd	r22, Y+7	; 0x07
-     f60:	78 85       	ldd	r23, Y+8	; 0x08
-     f62:	89 85       	ldd	r24, Y+9	; 0x09
-     f64:	9a 85       	ldd	r25, Y+10	; 0x0a
-     f66:	20 e0       	ldi	r18, 0x00	; 0
-     f68:	30 e0       	ldi	r19, 0x00	; 0
-     f6a:	40 e8       	ldi	r20, 0x80	; 128
-     f6c:	5f e3       	ldi	r21, 0x3F	; 63
-     f6e:	0e 94 79 03 	call	0x6f2	; 0x6f2 <__ltsf2>
-     f72:	88 23       	and	r24, r24
-     f74:	2c f4       	brge	.+10     	; 0xf80 <__vector_1+0x94>
-		__ticks = 1;
-     f76:	81 e0       	ldi	r24, 0x01	; 1
-     f78:	90 e0       	ldi	r25, 0x00	; 0
-     f7a:	9e 83       	std	Y+6, r25	; 0x06
-     f7c:	8d 83       	std	Y+5, r24	; 0x05
-     f7e:	3f c0       	rjmp	.+126    	; 0xffe <__vector_1+0x112>
-	else if (__tmp > 65535)
-     f80:	6f 81       	ldd	r22, Y+7	; 0x07
-     f82:	78 85       	ldd	r23, Y+8	; 0x08
-     f84:	89 85       	ldd	r24, Y+9	; 0x09
-     f86:	9a 85       	ldd	r25, Y+10	; 0x0a
-     f88:	20 e0       	ldi	r18, 0x00	; 0
-     f8a:	3f ef       	ldi	r19, 0xFF	; 255
-     f8c:	4f e7       	ldi	r20, 0x7F	; 127
-     f8e:	57 e4       	ldi	r21, 0x47	; 71
-     f90:	0e 94 19 03 	call	0x632	; 0x632 <__gtsf2>
-     f94:	18 16       	cp	r1, r24
-     f96:	4c f5       	brge	.+82     	; 0xfea <__vector_1+0xfe>
-	{
-		//	__ticks = requested delay in 1/10 ms
-		__ticks = (uint16_t) (__ms * 10.0);
-     f98:	6b 85       	ldd	r22, Y+11	; 0x0b
-     f9a:	7c 85       	ldd	r23, Y+12	; 0x0c
-     f9c:	8d 85       	ldd	r24, Y+13	; 0x0d
-     f9e:	9e 85       	ldd	r25, Y+14	; 0x0e
-     fa0:	20 e0       	ldi	r18, 0x00	; 0
-     fa2:	30 e0       	ldi	r19, 0x00	; 0
-     fa4:	40 e2       	ldi	r20, 0x20	; 32
-     fa6:	51 e4       	ldi	r21, 0x41	; 65
-     fa8:	0e 94 1f 02 	call	0x43e	; 0x43e <__mulsf3>
-     fac:	dc 01       	movw	r26, r24
-     fae:	cb 01       	movw	r24, r22
-     fb0:	bc 01       	movw	r22, r24
-     fb2:	cd 01       	movw	r24, r26
-     fb4:	0e 94 49 00 	call	0x92	; 0x92 <__fixunssfsi>
-     fb8:	dc 01       	movw	r26, r24
-     fba:	cb 01       	movw	r24, r22
-     fbc:	9e 83       	std	Y+6, r25	; 0x06
-     fbe:	8d 83       	std	Y+5, r24	; 0x05
-     fc0:	0f c0       	rjmp	.+30     	; 0xfe0 <__vector_1+0xf4>
-     fc2:	89 e1       	ldi	r24, 0x19	; 25
-     fc4:	90 e0       	ldi	r25, 0x00	; 0
-     fc6:	9c 83       	std	Y+4, r25	; 0x04
-     fc8:	8b 83       	std	Y+3, r24	; 0x03
-     fca:	8b 81       	ldd	r24, Y+3	; 0x03
-     fcc:	9c 81       	ldd	r25, Y+4	; 0x04
-     fce:	01 97       	sbiw	r24, 0x01	; 1
-     fd0:	f1 f7       	brne	.-4      	; 0xfce <__vector_1+0xe2>
-     fd2:	9c 83       	std	Y+4, r25	; 0x04
-     fd4:	8b 83       	std	Y+3, r24	; 0x03
-		while(__ticks)
-		{
-			// wait 1/10 ms
-			_delay_loop_2(((F_CPU) / 4e3) / 10);
-			__ticks --;
-     fd6:	8d 81       	ldd	r24, Y+5	; 0x05
-     fd8:	9e 81       	ldd	r25, Y+6	; 0x06
-     fda:	01 97       	sbiw	r24, 0x01	; 1
-     fdc:	9e 83       	std	Y+6, r25	; 0x06
-     fde:	8d 83       	std	Y+5, r24	; 0x05
-		__ticks = 1;
-	else if (__tmp > 65535)
-	{
-		//	__ticks = requested delay in 1/10 ms
-		__ticks = (uint16_t) (__ms * 10.0);
-		while(__ticks)
-     fe0:	8d 81       	ldd	r24, Y+5	; 0x05
-     fe2:	9e 81       	ldd	r25, Y+6	; 0x06
-     fe4:	00 97       	sbiw	r24, 0x00	; 0
-     fe6:	69 f7       	brne	.-38     	; 0xfc2 <__vector_1+0xd6>
-     fe8:	14 c0       	rjmp	.+40     	; 0x1012 <__vector_1+0x126>
-			__ticks --;
-		}
-		return;
-	}
-	else
-		__ticks = (uint16_t)__tmp;
-     fea:	6f 81       	ldd	r22, Y+7	; 0x07
-     fec:	78 85       	ldd	r23, Y+8	; 0x08
-     fee:	89 85       	ldd	r24, Y+9	; 0x09
-     ff0:	9a 85       	ldd	r25, Y+10	; 0x0a
-     ff2:	0e 94 49 00 	call	0x92	; 0x92 <__fixunssfsi>
-     ff6:	dc 01       	movw	r26, r24
-     ff8:	cb 01       	movw	r24, r22
-     ffa:	9e 83       	std	Y+6, r25	; 0x06
-     ffc:	8d 83       	std	Y+5, r24	; 0x05
-     ffe:	8d 81       	ldd	r24, Y+5	; 0x05
-    1000:	9e 81       	ldd	r25, Y+6	; 0x06
-    1002:	9a 83       	std	Y+2, r25	; 0x02
-    1004:	89 83       	std	Y+1, r24	; 0x01
-    1006:	89 81       	ldd	r24, Y+1	; 0x01
-    1008:	9a 81       	ldd	r25, Y+2	; 0x02
-    100a:	01 97       	sbiw	r24, 0x01	; 1
-    100c:	f1 f7       	brne	.-4      	; 0x100a <__vector_1+0x11e>
-    100e:	9a 83       	std	Y+2, r25	; 0x02
-    1010:	89 83       	std	Y+1, r24	; 0x01
+     d10:	6f 81       	ldd	r22, Y+7	; 0x07
+     d12:	78 85       	ldd	r23, Y+8	; 0x08
+     d14:	89 85       	ldd	r24, Y+9	; 0x09
+     d16:	9a 85       	ldd	r25, Y+10	; 0x0a
+     d18:	0e 94 49 00 	call	0x92	; 0x92 <__fixunssfsi>
+     d1c:	dc 01       	movw	r26, r24
+     d1e:	cb 01       	movw	r24, r22
+     d20:	9e 83       	std	Y+6, r25	; 0x06
+     d22:	8d 83       	std	Y+5, r24	; 0x05
+     d24:	8d 81       	ldd	r24, Y+5	; 0x05
+     d26:	9e 81       	ldd	r25, Y+6	; 0x06
+     d28:	9a 83       	std	Y+2, r25	; 0x02
+     d2a:	89 83       	std	Y+1, r24	; 0x01
+     d2c:	89 81       	ldd	r24, Y+1	; 0x01
+     d2e:	9a 81       	ldd	r25, Y+2	; 0x02
+     d30:	01 97       	sbiw	r24, 0x01	; 1
+     d32:	f1 f7       	brne	.-4      	; 0xd30 <__vector_1+0x11e>
+     d34:	9a 83       	std	Y+2, r25	; 0x02
+     d36:	89 83       	std	Y+1, r24	; 0x01
 
 	_delay_ms(30);       /* Just a 30ms delay due to Button-debouncing */
 }
-    1012:	2e 96       	adiw	r28, 0x0e	; 14
-    1014:	de bf       	out	0x3e, r29	; 62
-    1016:	cd bf       	out	0x3d, r28	; 61
-    1018:	cf 91       	pop	r28
-    101a:	df 91       	pop	r29
-    101c:	ff 91       	pop	r31
-    101e:	ef 91       	pop	r30
-    1020:	bf 91       	pop	r27
-    1022:	af 91       	pop	r26
-    1024:	9f 91       	pop	r25
-    1026:	8f 91       	pop	r24
-    1028:	7f 91       	pop	r23
-    102a:	6f 91       	pop	r22
-    102c:	5f 91       	pop	r21
-    102e:	4f 91       	pop	r20
-    1030:	3f 91       	pop	r19
-    1032:	2f 91       	pop	r18
-    1034:	0f 90       	pop	r0
-    1036:	0f be       	out	0x3f, r0	; 63
-    1038:	0f 90       	pop	r0
-    103a:	1f 90       	pop	r1
-    103c:	18 95       	reti
+     d38:	2e 96       	adiw	r28, 0x0e	; 14
+     d3a:	de bf       	out	0x3e, r29	; 62
+     d3c:	cd bf       	out	0x3d, r28	; 61
+     d3e:	cf 91       	pop	r28
+     d40:	df 91       	pop	r29
+     d42:	ff 91       	pop	r31
+     d44:	ef 91       	pop	r30
+     d46:	bf 91       	pop	r27
+     d48:	af 91       	pop	r26
+     d4a:	9f 91       	pop	r25
+     d4c:	8f 91       	pop	r24
+     d4e:	7f 91       	pop	r23
+     d50:	6f 91       	pop	r22
+     d52:	5f 91       	pop	r21
+     d54:	4f 91       	pop	r20
+     d56:	3f 91       	pop	r19
+     d58:	2f 91       	pop	r18
+     d5a:	0f 90       	pop	r0
+     d5c:	0f be       	out	0x3f, r0	; 63
+     d5e:	0f 90       	pop	r0
+     d60:	1f 90       	pop	r1
+     d62:	18 95       	reti
 
-0000103e <__vector_2>:
+00000d64 <__vector_2>:
 
 
 /* INT1 (ISR) that is responsible for PAUSE the Stop-Watch timer */
 ISR(INT1_vect)
 {
-    103e:	1f 92       	push	r1
-    1040:	0f 92       	push	r0
-    1042:	0f b6       	in	r0, 0x3f	; 63
-    1044:	0f 92       	push	r0
-    1046:	11 24       	eor	r1, r1
-    1048:	8f 93       	push	r24
-    104a:	af 93       	push	r26
-    104c:	bf 93       	push	r27
-    104e:	ef 93       	push	r30
-    1050:	ff 93       	push	r31
-    1052:	df 93       	push	r29
-    1054:	cf 93       	push	r28
-    1056:	cd b7       	in	r28, 0x3d	; 61
-    1058:	de b7       	in	r29, 0x3e	; 62
+     d64:	1f 92       	push	r1
+     d66:	0f 92       	push	r0
+     d68:	0f b6       	in	r0, 0x3f	; 63
+     d6a:	0f 92       	push	r0
+     d6c:	11 24       	eor	r1, r1
+     d6e:	8f 93       	push	r24
+     d70:	af 93       	push	r26
+     d72:	bf 93       	push	r27
+     d74:	ef 93       	push	r30
+     d76:	ff 93       	push	r31
+     d78:	df 93       	push	r29
+     d7a:	cf 93       	push	r28
+     d7c:	cd b7       	in	r28, 0x3d	; 61
+     d7e:	de b7       	in	r29, 0x3e	; 62
 	/* Configure timer control register TCCR1B:
 	 * No clock source (Timer/Counter stopped)
 	      CS10=0 CS11=0 CS12=0
 	 */
 	CLEAR_BIT(TCCR1B,CS10);
-    105a:	ae e4       	ldi	r26, 0x4E	; 78
-    105c:	b0 e0       	ldi	r27, 0x00	; 0
-    105e:	ee e4       	ldi	r30, 0x4E	; 78
-    1060:	f0 e0       	ldi	r31, 0x00	; 0
-    1062:	80 81       	ld	r24, Z
-    1064:	8e 7f       	andi	r24, 0xFE	; 254
-    1066:	8c 93       	st	X, r24
+     d80:	ae e4       	ldi	r26, 0x4E	; 78
+     d82:	b0 e0       	ldi	r27, 0x00	; 0
+     d84:	ee e4       	ldi	r30, 0x4E	; 78
+     d86:	f0 e0       	ldi	r31, 0x00	; 0
+     d88:	80 81       	ld	r24, Z
+     d8a:	8e 7f       	andi	r24, 0xFE	; 254
+     d8c:	8c 93       	st	X, r24
 	CLEAR_BIT(TCCR1B,CS11);
-    1068:	ae e4       	ldi	r26, 0x4E	; 78
-    106a:	b0 e0       	ldi	r27, 0x00	; 0
-    106c:	ee e4       	ldi	r30, 0x4E	; 78
-    106e:	f0 e0       	ldi	r31, 0x00	; 0
-    1070:	80 81       	ld	r24, Z
-    1072:	8d 7f       	andi	r24, 0xFD	; 253
-    1074:	8c 93       	st	X, r24
+     d8e:	ae e4       	ldi	r26, 0x4E	; 78
+     d90:	b0 e0       	ldi	r27, 0x00	; 0
+     d92:	ee e4       	ldi	r30, 0x4E	; 78
+     d94:	f0 e0       	ldi	r31, 0x00	; 0
+     d96:	80 81       	ld	r24, Z
+     d98:	8d 7f       	andi	r24, 0xFD	; 253
+     d9a:	8c 93       	st	X, r24
 	CLEAR_BIT(TCCR1B,CS12);
-    1076:	ae e4       	ldi	r26, 0x4E	; 78
-    1078:	b0 e0       	ldi	r27, 0x00	; 0
-    107a:	ee e4       	ldi	r30, 0x4E	; 78
-    107c:	f0 e0       	ldi	r31, 0x00	; 0
-    107e:	80 81       	ld	r24, Z
-    1080:	8b 7f       	andi	r24, 0xFB	; 251
-    1082:	8c 93       	st	X, r24
+     d9c:	ae e4       	ldi	r26, 0x4E	; 78
+     d9e:	b0 e0       	ldi	r27, 0x00	; 0
+     da0:	ee e4       	ldi	r30, 0x4E	; 78
+     da2:	f0 e0       	ldi	r31, 0x00	; 0
+     da4:	80 81       	ld	r24, Z
+     da6:	8b 7f       	andi	r24, 0xFB	; 251
+     da8:	8c 93       	st	X, r24
 }
-    1084:	cf 91       	pop	r28
-    1086:	df 91       	pop	r29
-    1088:	ff 91       	pop	r31
-    108a:	ef 91       	pop	r30
-    108c:	bf 91       	pop	r27
-    108e:	af 91       	pop	r26
-    1090:	8f 91       	pop	r24
-    1092:	0f 90       	pop	r0
-    1094:	0f be       	out	0x3f, r0	; 63
-    1096:	0f 90       	pop	r0
-    1098:	1f 90       	pop	r1
-    109a:	18 95       	reti
+     daa:	cf 91       	pop	r28
+     dac:	df 91       	pop	r29
+     dae:	ff 91       	pop	r31
+     db0:	ef 91       	pop	r30
+     db2:	bf 91       	pop	r27
+     db4:	af 91       	pop	r26
+     db6:	8f 91       	pop	r24
+     db8:	0f 90       	pop	r0
+     dba:	0f be       	out	0x3f, r0	; 63
+     dbc:	0f 90       	pop	r0
+     dbe:	1f 90       	pop	r1
+     dc0:	18 95       	reti
 
-0000109c <__vector_3>:
+00000dc2 <__vector_3>:
 
 
 /* INT2 (ISR) that is responsible for RESUME the Stop-Watch timer if it is paused */
 ISR(INT2_vect)
 {
-    109c:	1f 92       	push	r1
-    109e:	0f 92       	push	r0
-    10a0:	0f b6       	in	r0, 0x3f	; 63
-    10a2:	0f 92       	push	r0
-    10a4:	11 24       	eor	r1, r1
-    10a6:	8f 93       	push	r24
-    10a8:	9f 93       	push	r25
-    10aa:	af 93       	push	r26
-    10ac:	bf 93       	push	r27
-    10ae:	ef 93       	push	r30
-    10b0:	ff 93       	push	r31
-    10b2:	df 93       	push	r29
-    10b4:	cf 93       	push	r28
-    10b6:	cd b7       	in	r28, 0x3d	; 61
-    10b8:	de b7       	in	r29, 0x3e	; 62
+     dc2:	1f 92       	push	r1
+     dc4:	0f 92       	push	r0
+     dc6:	0f b6       	in	r0, 0x3f	; 63
+     dc8:	0f 92       	push	r0
+     dca:	11 24       	eor	r1, r1
+     dcc:	8f 93       	push	r24
+     dce:	9f 93       	push	r25
+     dd0:	af 93       	push	r26
+     dd2:	bf 93       	push	r27
+     dd4:	ef 93       	push	r30
+     dd6:	ff 93       	push	r31
+     dd8:	df 93       	push	r29
+     dda:	cf 93       	push	r28
+     ddc:	cd b7       	in	r28, 0x3d	; 61
+     dde:	de b7       	in	r29, 0x3e	; 62
 	 * Clock Source ON again (F_CLK/1024 (From prescaler))
 	      CS10=1 CS11=0 CS12=1
 	 */
 
 	/* Check if bit (CS10) in register (TCCR1B) is cleared or not */
 	if (BIT_IS_CLEAR(TCCR1B,CS10))
-    10ba:	ee e4       	ldi	r30, 0x4E	; 78
-    10bc:	f0 e0       	ldi	r31, 0x00	; 0
-    10be:	80 81       	ld	r24, Z
-    10c0:	88 2f       	mov	r24, r24
-    10c2:	90 e0       	ldi	r25, 0x00	; 0
-    10c4:	81 70       	andi	r24, 0x01	; 1
-    10c6:	90 70       	andi	r25, 0x00	; 0
-    10c8:	00 97       	sbiw	r24, 0x00	; 0
-    10ca:	39 f4       	brne	.+14     	; 0x10da <__vector_3+0x3e>
+     de0:	ee e4       	ldi	r30, 0x4E	; 78
+     de2:	f0 e0       	ldi	r31, 0x00	; 0
+     de4:	80 81       	ld	r24, Z
+     de6:	88 2f       	mov	r24, r24
+     de8:	90 e0       	ldi	r25, 0x00	; 0
+     dea:	81 70       	andi	r24, 0x01	; 1
+     dec:	90 70       	andi	r25, 0x00	; 0
+     dee:	00 97       	sbiw	r24, 0x00	; 0
+     df0:	39 f4       	brne	.+14     	; 0xe00 <__vector_3+0x3e>
 	{
 		SET_BIT(TCCR1B,CS10);
-    10cc:	ae e4       	ldi	r26, 0x4E	; 78
-    10ce:	b0 e0       	ldi	r27, 0x00	; 0
-    10d0:	ee e4       	ldi	r30, 0x4E	; 78
-    10d2:	f0 e0       	ldi	r31, 0x00	; 0
-    10d4:	80 81       	ld	r24, Z
-    10d6:	81 60       	ori	r24, 0x01	; 1
-    10d8:	8c 93       	st	X, r24
+     df2:	ae e4       	ldi	r26, 0x4E	; 78
+     df4:	b0 e0       	ldi	r27, 0x00	; 0
+     df6:	ee e4       	ldi	r30, 0x4E	; 78
+     df8:	f0 e0       	ldi	r31, 0x00	; 0
+     dfa:	80 81       	ld	r24, Z
+     dfc:	81 60       	ori	r24, 0x01	; 1
+     dfe:	8c 93       	st	X, r24
 	}
 
 	/* Check if bit (CS12) in register (TCCR1B) is cleared or not */
 	if (BIT_IS_CLEAR(TCCR1B,CS12))
-    10da:	ee e4       	ldi	r30, 0x4E	; 78
-    10dc:	f0 e0       	ldi	r31, 0x00	; 0
-    10de:	80 81       	ld	r24, Z
-    10e0:	88 2f       	mov	r24, r24
-    10e2:	90 e0       	ldi	r25, 0x00	; 0
-    10e4:	84 70       	andi	r24, 0x04	; 4
-    10e6:	90 70       	andi	r25, 0x00	; 0
-    10e8:	00 97       	sbiw	r24, 0x00	; 0
-    10ea:	39 f4       	brne	.+14     	; 0x10fa <__vector_3+0x5e>
+     e00:	ee e4       	ldi	r30, 0x4E	; 78
+     e02:	f0 e0       	ldi	r31, 0x00	; 0
+     e04:	80 81       	ld	r24, Z
+     e06:	88 2f       	mov	r24, r24
+     e08:	90 e0       	ldi	r25, 0x00	; 0
+     e0a:	84 70       	andi	r24, 0x04	; 4
+     e0c:	90 70       	andi	r25, 0x00	; 0
+     e0e:	00 97       	sbiw	r24, 0x00	; 0
+     e10:	39 f4       	brne	.+14     	; 0xe20 <__vector_3+0x5e>
 	{
 		SET_BIT(TCCR1B,CS12);
-    10ec:	ae e4       	ldi	r26, 0x4E	; 78
-    10ee:	b0 e0       	ldi	r27, 0x00	; 0
-    10f0:	ee e4       	ldi	r30, 0x4E	; 78
-    10f2:	f0 e0       	ldi	r31, 0x00	; 0
-    10f4:	80 81       	ld	r24, Z
-    10f6:	84 60       	ori	r24, 0x04	; 4
-    10f8:	8c 93       	st	X, r24
+     e12:	ae e4       	ldi	r26, 0x4E	; 78
+     e14:	b0 e0       	ldi	r27, 0x00	; 0
+     e16:	ee e4       	ldi	r30, 0x4E	; 78
+     e18:	f0 e0       	ldi	r31, 0x00	; 0
+     e1a:	80 81       	ld	r24, Z
+     e1c:	84 60       	ori	r24, 0x04	; 4
+     e1e:	8c 93       	st	X, r24
 	}
 }
-    10fa:	cf 91       	pop	r28
-    10fc:	df 91       	pop	r29
-    10fe:	ff 91       	pop	r31
-    1100:	ef 91       	pop	r30
-    1102:	bf 91       	pop	r27
-    1104:	af 91       	pop	r26
-    1106:	9f 91       	pop	r25
+     e20:	cf 91       	pop	r28
+     e22:	df 91       	pop	r29
+     e24:	ff 91       	pop	r31
+     e26:	ef 91       	pop	r30
+     e28:	bf 91       	pop	r27
+     e2a:	af 91       	pop	r26
+     e2c:	9f 91       	pop	r25
+     e2e:	8f 91       	pop	r24
+     e30:	0f 90       	pop	r0
+     e32:	0f be       	out	0x3f, r0	; 63
+     e34:	0f 90       	pop	r0
+     e36:	1f 90       	pop	r1
+     e38:	18 95       	reti
+
+00000e3a <main>:
+/*******************************************************************************
+ *                                MAIN FUNCTION                                *
+ *******************************************************************************/
+
+int main(void)
+{
+     e3a:	df 93       	push	r29
+     e3c:	cf 93       	push	r28
+     e3e:	cd b7       	in	r28, 0x3d	; 61
+     e40:	de b7       	in	r29, 0x3e	; 62
+	GPIO_setPortDirection(PORTA_ID, 0x3F); /* Configure (PA0 ... PA5) as O/P pins (Control of the 7 Segment) */
+     e42:	80 e0       	ldi	r24, 0x00	; 0
+     e44:	6f e3       	ldi	r22, 0x3F	; 63
+     e46:	0e 94 8a 08 	call	0x1114	; 0x1114 <GPIO_setPortDirection>
+
+	GPIO_setPortDirection(PORTC_ID, 0x0F); /* Configure (PC0 ... PC3) as O/P pins */
+     e4a:	82 e0       	ldi	r24, 0x02	; 2
+     e4c:	6f e0       	ldi	r22, 0x0F	; 15
+     e4e:	0e 94 8a 08 	call	0x1114	; 0x1114 <GPIO_setPortDirection>
+
+	Timer1_CTC_Init();    /* Initialize TIMER1 Compare mode */
+     e52:	0e 94 43 07 	call	0xe86	; 0xe86 <Timer1_CTC_Init>
+
+	INT0_Init();          /* Initialize INT0 as RESET interrupt */
+     e56:	0e 94 a3 05 	call	0xb46	; 0xb46 <INT0_Init>
+	INT1_Init();          /* Initialize INT1 as PAUSE interrupt */
+     e5a:	0e 94 c9 05 	call	0xb92	; 0xb92 <INT1_Init>
+	INT2_Init();          /* Initialize INT2 as RESUME interrupt */
+     e5e:	0e 94 ea 05 	call	0xbd4	; 0xbd4 <INT2_Init>
+
+	SET_BIT(SREG, I_BIT); /* Enable global interrupts in MC by setting I-bit */
+     e62:	af e5       	ldi	r26, 0x5F	; 95
+     e64:	b0 e0       	ldi	r27, 0x00	; 0
+     e66:	ef e5       	ldi	r30, 0x5F	; 95
+     e68:	f0 e0       	ldi	r31, 0x00	; 0
+     e6a:	80 81       	ld	r24, Z
+     e6c:	80 68       	ori	r24, 0x80	; 128
+     e6e:	8c 93       	st	X, r24
+
+	while (1)
+	{
+		StopWatch_Multiplexing_Mode();
+     e70:	0e 94 60 07 	call	0xec0	; 0xec0 <StopWatch_Multiplexing_Mode>
+
+		if (g_Interrupt_Flag == 1)
+     e74:	80 91 6b 00 	lds	r24, 0x006B
+     e78:	81 30       	cpi	r24, 0x01	; 1
+     e7a:	d1 f7       	brne	.-12     	; 0xe70 <main+0x36>
+		{
+			StopWatch_TimeProcessing();
+     e7c:	0e 94 3f 08 	call	0x107e	; 0x107e <StopWatch_TimeProcessing>
+
+			g_Interrupt_Flag = 0;     /* Clear flag to be Set when timer interrupt is triggered again */
+     e80:	10 92 6b 00 	sts	0x006B, r1
+     e84:	f5 cf       	rjmp	.-22     	; 0xe70 <main+0x36>
+
+00000e86 <Timer1_CTC_Init>:
+/*******************************************************************************
+ *                            FUNCTIONS DEFINITIONS                            *
+ *******************************************************************************/
+
+void Timer1_CTC_Init(void)
+{
+     e86:	df 93       	push	r29
+     e88:	cf 93       	push	r28
+     e8a:	cd b7       	in	r28, 0x3d	; 61
+     e8c:	de b7       	in	r29, 0x3e	; 62
+	TCNT1 = 0;              /* Set timer1 initial count to zero */
+     e8e:	ec e4       	ldi	r30, 0x4C	; 76
+     e90:	f0 e0       	ldi	r31, 0x00	; 0
+     e92:	11 82       	std	Z+1, r1	; 0x01
+     e94:	10 82       	st	Z, r1
+
+	OCR1A = 977;            /* Set the Compare value to 977 ( To tigger an interrupt each second ) */
+     e96:	ea e4       	ldi	r30, 0x4A	; 74
+     e98:	f0 e0       	ldi	r31, 0x00	; 0
+     e9a:	81 ed       	ldi	r24, 0xD1	; 209
+     e9c:	93 e0       	ldi	r25, 0x03	; 3
+     e9e:	91 83       	std	Z+1, r25	; 0x01
+     ea0:	80 83       	st	Z, r24
+
+	TIMSK = (1 << OCIE1A);  /* Enable Timer1 Compare A Interrupt */
+     ea2:	e9 e5       	ldi	r30, 0x59	; 89
+     ea4:	f0 e0       	ldi	r31, 0x00	; 0
+     ea6:	80 e1       	ldi	r24, 0x10	; 16
+     ea8:	80 83       	st	Z, r24
+	      COM1A1=1 COM1A0=0 COM1B0=0 COM1B1=1
+
+	 * 2. FOC1A=1 FOC1B=0
+	 * 3. CTC Mode WGM10=0 WGM11=0 (Mode Number 4)
+	 */
+	TCCR1A = (1 << FOC1A) | (1 << COM1A1);
+     eaa:	ef e4       	ldi	r30, 0x4F	; 79
+     eac:	f0 e0       	ldi	r31, 0x00	; 0
+     eae:	88 e8       	ldi	r24, 0x88	; 136
+     eb0:	80 83       	st	Z, r24
+	/* Configure timer control register TCCR1B:
+	 * 1. CTC Mode WGM12=1 WGM13=0 (Mode Number 4)
+	 * 2. Prescaler = F_CPU/1024
+	      CS10=1 CS11=0 CS12=1
+	 */
+	TCCR1B = (1 << WGM12) | (1 << CS12) | (1 << CS10);
+     eb2:	ee e4       	ldi	r30, 0x4E	; 78
+     eb4:	f0 e0       	ldi	r31, 0x00	; 0
+     eb6:	8d e0       	ldi	r24, 0x0D	; 13
+     eb8:	80 83       	st	Z, r24
+}
+     eba:	cf 91       	pop	r28
+     ebc:	df 91       	pop	r29
+     ebe:	08 95       	ret
+
+00000ec0 <StopWatch_Multiplexing_Mode>:
+ * Description:
+ * One 7-segment display is driven by the Microcontroller at a time and the rest are OFF.
+ * It keeps switching the displays using transistors.
+ */
+void StopWatch_Multiplexing_Mode(void)
+{
+     ec0:	df 93       	push	r29
+     ec2:	cf 93       	push	r28
+     ec4:	cd b7       	in	r28, 0x3d	; 61
+     ec6:	de b7       	in	r29, 0x3e	; 62
+     ec8:	65 97       	sbiw	r28, 0x15	; 21
+     eca:	0f b6       	in	r0, 0x3f	; 63
+     ecc:	f8 94       	cli
+     ece:	de bf       	out	0x3e, r29	; 62
+     ed0:	0f be       	out	0x3f, r0	; 63
+     ed2:	cd bf       	out	0x3d, r28	; 61
+	 * To get second digit of Seconds , Use g_Sec / 10
+	 * That technique is also applied on g_Min , g_Hour
+	 */
+	uint8_t timeDigits[] = {(g_Sec % 10),(g_Sec / 10),
+			                (g_Min % 10),(g_Min / 10),
+			                (g_Hour % 10),(g_Hour / 10)};      /* Array that contains the Stop-Watch digits */
+     ed4:	80 91 68 00 	lds	r24, 0x0068
+     ed8:	9a e0       	ldi	r25, 0x0A	; 10
+     eda:	69 2f       	mov	r22, r25
+     edc:	0e 94 3a 0d 	call	0x1a74	; 0x1a74 <__udivmodqi4>
+     ee0:	89 2f       	mov	r24, r25
+     ee2:	28 2f       	mov	r18, r24
+     ee4:	80 91 68 00 	lds	r24, 0x0068
+     ee8:	9a e0       	ldi	r25, 0x0A	; 10
+     eea:	69 2f       	mov	r22, r25
+     eec:	0e 94 3a 0d 	call	0x1a74	; 0x1a74 <__udivmodqi4>
+     ef0:	38 2f       	mov	r19, r24
+     ef2:	80 91 69 00 	lds	r24, 0x0069
+     ef6:	9a e0       	ldi	r25, 0x0A	; 10
+     ef8:	69 2f       	mov	r22, r25
+     efa:	0e 94 3a 0d 	call	0x1a74	; 0x1a74 <__udivmodqi4>
+     efe:	89 2f       	mov	r24, r25
+     f00:	48 2f       	mov	r20, r24
+     f02:	80 91 69 00 	lds	r24, 0x0069
+     f06:	9a e0       	ldi	r25, 0x0A	; 10
+     f08:	69 2f       	mov	r22, r25
+     f0a:	0e 94 3a 0d 	call	0x1a74	; 0x1a74 <__udivmodqi4>
+     f0e:	58 2f       	mov	r21, r24
+     f10:	80 91 6a 00 	lds	r24, 0x006A
+     f14:	9a e0       	ldi	r25, 0x0A	; 10
+     f16:	69 2f       	mov	r22, r25
+     f18:	0e 94 3a 0d 	call	0x1a74	; 0x1a74 <__udivmodqi4>
+     f1c:	89 2f       	mov	r24, r25
+     f1e:	e8 2f       	mov	r30, r24
+     f20:	80 91 6a 00 	lds	r24, 0x006A
+     f24:	9a e0       	ldi	r25, 0x0A	; 10
+     f26:	69 2f       	mov	r22, r25
+     f28:	0e 94 3a 0d 	call	0x1a74	; 0x1a74 <__udivmodqi4>
+     f2c:	28 8b       	std	Y+16, r18	; 0x10
+     f2e:	39 8b       	std	Y+17, r19	; 0x11
+     f30:	4a 8b       	std	Y+18, r20	; 0x12
+     f32:	5b 8b       	std	Y+19, r21	; 0x13
+     f34:	ec 8b       	std	Y+20, r30	; 0x14
+     f36:	8d 8b       	std	Y+21, r24	; 0x15
+
+	for(uint8_t count = 0; count < 6; count++)
+     f38:	1f 86       	std	Y+15, r1	; 0x0f
+     f3a:	94 c0       	rjmp	.+296    	; 0x1064 <StopWatch_Multiplexing_Mode+0x1a4>
+	{
+
+		PORTA = (1 << count);        /* Enable All 7-Segments (one at a time) */
+     f3c:	eb e3       	ldi	r30, 0x3B	; 59
+     f3e:	f0 e0       	ldi	r31, 0x00	; 0
+     f40:	8f 85       	ldd	r24, Y+15	; 0x0f
+     f42:	28 2f       	mov	r18, r24
+     f44:	30 e0       	ldi	r19, 0x00	; 0
+     f46:	81 e0       	ldi	r24, 0x01	; 1
+     f48:	90 e0       	ldi	r25, 0x00	; 0
+     f4a:	02 c0       	rjmp	.+4      	; 0xf50 <StopWatch_Multiplexing_Mode+0x90>
+     f4c:	88 0f       	add	r24, r24
+     f4e:	99 1f       	adc	r25, r25
+     f50:	2a 95       	dec	r18
+     f52:	e2 f7       	brpl	.-8      	; 0xf4c <StopWatch_Multiplexing_Mode+0x8c>
+     f54:	80 83       	st	Z, r24
+
+		/* First:  Clearing the display each iteration
+		 * Second: Displaying the corresponding count in the enabled 7-Segment
+		 */
+		PORTC = (PORTC & 0xF0) | timeDigits[count];
+     f56:	a5 e3       	ldi	r26, 0x35	; 53
+     f58:	b0 e0       	ldi	r27, 0x00	; 0
+     f5a:	e5 e3       	ldi	r30, 0x35	; 53
+     f5c:	f0 e0       	ldi	r31, 0x00	; 0
+     f5e:	80 81       	ld	r24, Z
+     f60:	48 2f       	mov	r20, r24
+     f62:	40 7f       	andi	r20, 0xF0	; 240
+     f64:	8f 85       	ldd	r24, Y+15	; 0x0f
+     f66:	28 2f       	mov	r18, r24
+     f68:	30 e0       	ldi	r19, 0x00	; 0
+     f6a:	ce 01       	movw	r24, r28
+     f6c:	40 96       	adiw	r24, 0x10	; 16
+     f6e:	fc 01       	movw	r30, r24
+     f70:	e2 0f       	add	r30, r18
+     f72:	f3 1f       	adc	r31, r19
+     f74:	80 81       	ld	r24, Z
+     f76:	84 2b       	or	r24, r20
+     f78:	8c 93       	st	X, r24
+     f7a:	80 e0       	ldi	r24, 0x00	; 0
+     f7c:	90 e0       	ldi	r25, 0x00	; 0
+     f7e:	a0 e8       	ldi	r26, 0x80	; 128
+     f80:	b0 e4       	ldi	r27, 0x40	; 64
+     f82:	8b 87       	std	Y+11, r24	; 0x0b
+     f84:	9c 87       	std	Y+12, r25	; 0x0c
+     f86:	ad 87       	std	Y+13, r26	; 0x0d
+     f88:	be 87       	std	Y+14, r27	; 0x0e
+ */
+void
+_delay_ms(double __ms)
+{
+	uint16_t __ticks;
+	double __tmp = ((F_CPU) / 4e3) * __ms;
+     f8a:	6b 85       	ldd	r22, Y+11	; 0x0b
+     f8c:	7c 85       	ldd	r23, Y+12	; 0x0c
+     f8e:	8d 85       	ldd	r24, Y+13	; 0x0d
+     f90:	9e 85       	ldd	r25, Y+14	; 0x0e
+     f92:	20 e0       	ldi	r18, 0x00	; 0
+     f94:	30 e0       	ldi	r19, 0x00	; 0
+     f96:	4a e7       	ldi	r20, 0x7A	; 122
+     f98:	53 e4       	ldi	r21, 0x43	; 67
+     f9a:	0e 94 1f 02 	call	0x43e	; 0x43e <__mulsf3>
+     f9e:	dc 01       	movw	r26, r24
+     fa0:	cb 01       	movw	r24, r22
+     fa2:	8f 83       	std	Y+7, r24	; 0x07
+     fa4:	98 87       	std	Y+8, r25	; 0x08
+     fa6:	a9 87       	std	Y+9, r26	; 0x09
+     fa8:	ba 87       	std	Y+10, r27	; 0x0a
+	if (__tmp < 1.0)
+     faa:	6f 81       	ldd	r22, Y+7	; 0x07
+     fac:	78 85       	ldd	r23, Y+8	; 0x08
+     fae:	89 85       	ldd	r24, Y+9	; 0x09
+     fb0:	9a 85       	ldd	r25, Y+10	; 0x0a
+     fb2:	20 e0       	ldi	r18, 0x00	; 0
+     fb4:	30 e0       	ldi	r19, 0x00	; 0
+     fb6:	40 e8       	ldi	r20, 0x80	; 128
+     fb8:	5f e3       	ldi	r21, 0x3F	; 63
+     fba:	0e 94 79 03 	call	0x6f2	; 0x6f2 <__ltsf2>
+     fbe:	88 23       	and	r24, r24
+     fc0:	2c f4       	brge	.+10     	; 0xfcc <StopWatch_Multiplexing_Mode+0x10c>
+		__ticks = 1;
+     fc2:	81 e0       	ldi	r24, 0x01	; 1
+     fc4:	90 e0       	ldi	r25, 0x00	; 0
+     fc6:	9e 83       	std	Y+6, r25	; 0x06
+     fc8:	8d 83       	std	Y+5, r24	; 0x05
+     fca:	3f c0       	rjmp	.+126    	; 0x104a <StopWatch_Multiplexing_Mode+0x18a>
+	else if (__tmp > 65535)
+     fcc:	6f 81       	ldd	r22, Y+7	; 0x07
+     fce:	78 85       	ldd	r23, Y+8	; 0x08
+     fd0:	89 85       	ldd	r24, Y+9	; 0x09
+     fd2:	9a 85       	ldd	r25, Y+10	; 0x0a
+     fd4:	20 e0       	ldi	r18, 0x00	; 0
+     fd6:	3f ef       	ldi	r19, 0xFF	; 255
+     fd8:	4f e7       	ldi	r20, 0x7F	; 127
+     fda:	57 e4       	ldi	r21, 0x47	; 71
+     fdc:	0e 94 19 03 	call	0x632	; 0x632 <__gtsf2>
+     fe0:	18 16       	cp	r1, r24
+     fe2:	4c f5       	brge	.+82     	; 0x1036 <StopWatch_Multiplexing_Mode+0x176>
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+     fe4:	6b 85       	ldd	r22, Y+11	; 0x0b
+     fe6:	7c 85       	ldd	r23, Y+12	; 0x0c
+     fe8:	8d 85       	ldd	r24, Y+13	; 0x0d
+     fea:	9e 85       	ldd	r25, Y+14	; 0x0e
+     fec:	20 e0       	ldi	r18, 0x00	; 0
+     fee:	30 e0       	ldi	r19, 0x00	; 0
+     ff0:	40 e2       	ldi	r20, 0x20	; 32
+     ff2:	51 e4       	ldi	r21, 0x41	; 65
+     ff4:	0e 94 1f 02 	call	0x43e	; 0x43e <__mulsf3>
+     ff8:	dc 01       	movw	r26, r24
+     ffa:	cb 01       	movw	r24, r22
+     ffc:	bc 01       	movw	r22, r24
+     ffe:	cd 01       	movw	r24, r26
+    1000:	0e 94 49 00 	call	0x92	; 0x92 <__fixunssfsi>
+    1004:	dc 01       	movw	r26, r24
+    1006:	cb 01       	movw	r24, r22
+    1008:	9e 83       	std	Y+6, r25	; 0x06
+    100a:	8d 83       	std	Y+5, r24	; 0x05
+    100c:	0f c0       	rjmp	.+30     	; 0x102c <StopWatch_Multiplexing_Mode+0x16c>
+    100e:	89 e1       	ldi	r24, 0x19	; 25
+    1010:	90 e0       	ldi	r25, 0x00	; 0
+    1012:	9c 83       	std	Y+4, r25	; 0x04
+    1014:	8b 83       	std	Y+3, r24	; 0x03
+    1016:	8b 81       	ldd	r24, Y+3	; 0x03
+    1018:	9c 81       	ldd	r25, Y+4	; 0x04
+    101a:	01 97       	sbiw	r24, 0x01	; 1
+    101c:	f1 f7       	brne	.-4      	; 0x101a <StopWatch_Multiplexing_Mode+0x15a>
+    101e:	9c 83       	std	Y+4, r25	; 0x04
+    1020:	8b 83       	std	Y+3, r24	; 0x03
+		while(__ticks)
+		{
+			// wait 1/10 ms
+			_delay_loop_2(((F_CPU) / 4e3) / 10);
+			__ticks --;
+    1022:	8d 81       	ldd	r24, Y+5	; 0x05
+    1024:	9e 81       	ldd	r25, Y+6	; 0x06
+    1026:	01 97       	sbiw	r24, 0x01	; 1
+    1028:	9e 83       	std	Y+6, r25	; 0x06
+    102a:	8d 83       	std	Y+5, r24	; 0x05
+		__ticks = 1;
+	else if (__tmp > 65535)
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+    102c:	8d 81       	ldd	r24, Y+5	; 0x05
+    102e:	9e 81       	ldd	r25, Y+6	; 0x06
+    1030:	00 97       	sbiw	r24, 0x00	; 0
+    1032:	69 f7       	brne	.-38     	; 0x100e <StopWatch_Multiplexing_Mode+0x14e>
+    1034:	14 c0       	rjmp	.+40     	; 0x105e <StopWatch_Multiplexing_Mode+0x19e>
+			__ticks --;
+		}
+		return;
+	}
+	else
+		__ticks = (uint16_t)__tmp;
+    1036:	6f 81       	ldd	r22, Y+7	; 0x07
+    1038:	78 85       	ldd	r23, Y+8	; 0x08
+    103a:	89 85       	ldd	r24, Y+9	; 0x09
+    103c:	9a 85       	ldd	r25, Y+10	; 0x0a
+    103e:	0e 94 49 00 	call	0x92	; 0x92 <__fixunssfsi>
+    1042:	dc 01       	movw	r26, r24
+    1044:	cb 01       	movw	r24, r22
+    1046:	9e 83       	std	Y+6, r25	; 0x06
+    1048:	8d 83       	std	Y+5, r24	; 0x05
+    104a:	8d 81       	ldd	r24, Y+5	; 0x05
+    104c:	9e 81       	ldd	r25, Y+6	; 0x06
+    104e:	9a 83       	std	Y+2, r25	; 0x02
+    1050:	89 83       	std	Y+1, r24	; 0x01
+    1052:	89 81       	ldd	r24, Y+1	; 0x01
+    1054:	9a 81       	ldd	r25, Y+2	; 0x02
+    1056:	01 97       	sbiw	r24, 0x01	; 1
+    1058:	f1 f7       	brne	.-4      	; 0x1056 <StopWatch_Multiplexing_Mode+0x196>
+    105a:	9a 83       	std	Y+2, r25	; 0x02
+    105c:	89 83       	std	Y+1, r24	; 0x01
+	 */
+	uint8_t timeDigits[] = {(g_Sec % 10),(g_Sec / 10),
+			                (g_Min % 10),(g_Min / 10),
+			                (g_Hour % 10),(g_Hour / 10)};      /* Array that contains the Stop-Watch digits */
+
+	for(uint8_t count = 0; count < 6; count++)
+    105e:	8f 85       	ldd	r24, Y+15	; 0x0f
+    1060:	8f 5f       	subi	r24, 0xFF	; 255
+    1062:	8f 87       	std	Y+15, r24	; 0x0f
+    1064:	8f 85       	ldd	r24, Y+15	; 0x0f
+    1066:	86 30       	cpi	r24, 0x06	; 6
+    1068:	08 f4       	brcc	.+2      	; 0x106c <StopWatch_Multiplexing_Mode+0x1ac>
+    106a:	68 cf       	rjmp	.-304    	; 0xf3c <StopWatch_Multiplexing_Mode+0x7c>
+		 */
+		PORTC = (PORTC & 0xF0) | timeDigits[count];
+
+		_delay_ms(4);     /* Delay between each 7-segment enable to make the Stop-Watch display looks normal */
+	}
+}
+    106c:	65 96       	adiw	r28, 0x15	; 21
+    106e:	0f b6       	in	r0, 0x3f	; 63
+    1070:	f8 94       	cli
+    1072:	de bf       	out	0x3e, r29	; 62
+    1074:	0f be       	out	0x3f, r0	; 63
+    1076:	cd bf       	out	0x3d, r28	; 61
+    1078:	cf 91       	pop	r28
+    107a:	df 91       	pop	r29
+    107c:	08 95       	ret
+
+0000107e <StopWatch_TimeProcessing>:
+
+void StopWatch_TimeProcessing(void)
+{
+    107e:	df 93       	push	r29
+    1080:	cf 93       	push	r28
+    1082:	cd b7       	in	r28, 0x3d	; 61
+    1084:	de b7       	in	r29, 0x3e	; 62
+	/* Check if Seconds exceeded the range (0 --> 59) or not */
+	if (g_Sec == 59)
+    1086:	80 91 68 00 	lds	r24, 0x0068
+    108a:	8b 33       	cpi	r24, 0x3B	; 59
+    108c:	41 f4       	brne	.+16     	; 0x109e <StopWatch_TimeProcessing+0x20>
+	{
+		g_Sec = 0;       /* Clear Seconds if exceeded */
+    108e:	10 92 68 00 	sts	0x0068, r1
+		g_Min++;         /* Increment Mintues */
+    1092:	80 91 69 00 	lds	r24, 0x0069
+    1096:	8f 5f       	subi	r24, 0xFF	; 255
+    1098:	80 93 69 00 	sts	0x0069, r24
+    109c:	05 c0       	rjmp	.+10     	; 0x10a8 <StopWatch_TimeProcessing+0x2a>
+	}
+	else
+		g_Sec++;         /* Increment Seconds if not exceeded */
+    109e:	80 91 68 00 	lds	r24, 0x0068
+    10a2:	8f 5f       	subi	r24, 0xFF	; 255
+    10a4:	80 93 68 00 	sts	0x0068, r24
+
+	/* Check if Mintues exceeded the range (0 --> 59) or not */
+	if (g_Min > 59)
+    10a8:	80 91 69 00 	lds	r24, 0x0069
+    10ac:	8c 33       	cpi	r24, 0x3C	; 60
+    10ae:	38 f0       	brcs	.+14     	; 0x10be <StopWatch_TimeProcessing+0x40>
+	{
+		g_Min = 0;      /* Clear Mintues if exceeded */
+    10b0:	10 92 69 00 	sts	0x0069, r1
+		g_Hour++;       /* Increment Hours */
+    10b4:	80 91 6a 00 	lds	r24, 0x006A
+    10b8:	8f 5f       	subi	r24, 0xFF	; 255
+    10ba:	80 93 6a 00 	sts	0x006A, r24
+	}
+
+	/* Check if Hours exceeded the range (0 --> 23 in one day) or not */
+	if (g_Hour > 23)
+    10be:	80 91 6a 00 	lds	r24, 0x006A
+    10c2:	88 31       	cpi	r24, 0x18	; 24
+    10c4:	10 f0       	brcs	.+4      	; 0x10ca <StopWatch_TimeProcessing+0x4c>
+	{
+		g_Hour = 0;    /* Clear Hours if exceeded */
+    10c6:	10 92 6a 00 	sts	0x006A, r1
+		               /* This case is like a Reset operation when overflow occurs in Stop-Watch timer */
+	}
+}
+    10ca:	cf 91       	pop	r28
+    10cc:	df 91       	pop	r29
+    10ce:	08 95       	ret
+
+000010d0 <resetDigits>:
+
+/* Function to reset all Stop-Watch Digits */
+void resetDigits(void)
+{
+    10d0:	df 93       	push	r29
+    10d2:	cf 93       	push	r28
+    10d4:	cd b7       	in	r28, 0x3d	; 61
+    10d6:	de b7       	in	r29, 0x3e	; 62
+	g_Sec = 0;
+    10d8:	10 92 68 00 	sts	0x0068, r1
+	g_Min = 0;
+    10dc:	10 92 69 00 	sts	0x0069, r1
+	g_Hour = 0;
+    10e0:	10 92 6a 00 	sts	0x006A, r1
+}
+    10e4:	cf 91       	pop	r28
+    10e6:	df 91       	pop	r29
+    10e8:	08 95       	ret
+
+000010ea <__vector_7>:
+/*******************************************************************************
+ *                          INTERRUPT SERVICE ROUTINES                         *
+ *******************************************************************************/
+
+ISR(TIMER1_COMPA_vect)
+{
+    10ea:	1f 92       	push	r1
+    10ec:	0f 92       	push	r0
+    10ee:	0f b6       	in	r0, 0x3f	; 63
+    10f0:	0f 92       	push	r0
+    10f2:	11 24       	eor	r1, r1
+    10f4:	8f 93       	push	r24
+    10f6:	df 93       	push	r29
+    10f8:	cf 93       	push	r28
+    10fa:	cd b7       	in	r28, 0x3d	; 61
+    10fc:	de b7       	in	r29, 0x3e	; 62
+	g_Interrupt_Flag = 1;    /* Set this global interrupt flag as an indication of Timer1 interrupt */
+    10fe:	81 e0       	ldi	r24, 0x01	; 1
+    1100:	80 93 6b 00 	sts	0x006B, r24
+}
+    1104:	cf 91       	pop	r28
+    1106:	df 91       	pop	r29
     1108:	8f 91       	pop	r24
     110a:	0f 90       	pop	r0
     110c:	0f be       	out	0x3f, r0	; 63

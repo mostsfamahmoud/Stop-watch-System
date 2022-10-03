@@ -7,17 +7,17 @@ c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_clear_bss.o)
                               ./StopWatch.o (__do_clear_bss)
 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_fixunssfsi.o)
-                              ./StopWatch.o (__fixunssfsi)
+                              ./External_Interrupts.o (__fixunssfsi)
 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_addsub_sf.o)
                               c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_fixunssfsi.o) (__subsf3)
 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_mul_sf.o)
-                              ./StopWatch.o (__mulsf3)
+                              ./External_Interrupts.o (__mulsf3)
 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_gt_sf.o)
-                              ./StopWatch.o (__gtsf2)
+                              ./External_Interrupts.o (__gtsf2)
 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_ge_sf.o)
                               c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_fixunssfsi.o) (__gesf2)
 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_lt_sf.o)
-                              ./StopWatch.o (__ltsf2)
+                              ./External_Interrupts.o (__ltsf2)
 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_sf_to_si.o)
                               c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_fixunssfsi.o) (__fixsfsi)
 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_thenan_sf.o)
@@ -261,32 +261,32 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  .text.INT2_Init
                 0x00000bd4       0x3e ./External_Interrupts.o
                 0x00000bd4                INT2_Init
- .text.main     0x00000c12       0x4c ./StopWatch.o
-                0x00000c12                main
- .text.Timer1_CTC_Init
-                0x00000c5e       0x3a ./StopWatch.o
-                0x00000c5e                Timer1_CTC_Init
- .text.StopWatch_Multiplexing_Mode
-                0x00000c98      0x1be ./StopWatch.o
-                0x00000c98                StopWatch_Multiplexing_Mode
- .text.StopWatch_TimeProcessing
-                0x00000e56       0x52 ./StopWatch.o
-                0x00000e56                StopWatch_TimeProcessing
- .text.resetDigits
-                0x00000ea8       0x1a ./StopWatch.o
-                0x00000ea8                resetDigits
- .text.__vector_7
-                0x00000ec2       0x2a ./StopWatch.o
-                0x00000ec2                __vector_7
  .text.__vector_1
-                0x00000eec      0x152 ./StopWatch.o
-                0x00000eec                __vector_1
+                0x00000c12      0x152 ./External_Interrupts.o
+                0x00000c12                __vector_1
  .text.__vector_2
-                0x0000103e       0x5e ./StopWatch.o
-                0x0000103e                __vector_2
+                0x00000d64       0x5e ./External_Interrupts.o
+                0x00000d64                __vector_2
  .text.__vector_3
-                0x0000109c       0x78 ./StopWatch.o
-                0x0000109c                __vector_3
+                0x00000dc2       0x78 ./External_Interrupts.o
+                0x00000dc2                __vector_3
+ .text.main     0x00000e3a       0x4c ./StopWatch.o
+                0x00000e3a                main
+ .text.Timer1_CTC_Init
+                0x00000e86       0x3a ./StopWatch.o
+                0x00000e86                Timer1_CTC_Init
+ .text.StopWatch_Multiplexing_Mode
+                0x00000ec0      0x1be ./StopWatch.o
+                0x00000ec0                StopWatch_Multiplexing_Mode
+ .text.StopWatch_TimeProcessing
+                0x0000107e       0x52 ./StopWatch.o
+                0x0000107e                StopWatch_TimeProcessing
+ .text.resetDigits
+                0x000010d0       0x1a ./StopWatch.o
+                0x000010d0                resetDigits
+ .text.__vector_7
+                0x000010ea       0x2a ./StopWatch.o
+                0x000010ea                __vector_7
  .text.GPIO_setPortDirection
                 0x00001114       0xaa ./gpio.o
                 0x00001114                GPIO_setPortDirection
@@ -409,11 +409,8 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  .bss           0x00800068        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_fpcmp_parts_sf.o)
  *(.bss*)
  .bss.g_Sec     0x00800068        0x1 ./StopWatch.o
-                0x00800068                g_Sec
  .bss.g_Min     0x00800069        0x1 ./StopWatch.o
-                0x00800069                g_Min
  .bss.g_Hour    0x0080006a        0x1 ./StopWatch.o
-                0x0080006a                g_Hour
  .bss.g_Interrupt_Flag
                 0x0080006b        0x1 ./StopWatch.o
                 0x0080006b                g_Interrupt_Flag
@@ -445,12 +442,12 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
 .signature
  *(.signature*)
 
-.stab           0x00000000     0x1140
+.stab           0x00000000     0x1134
  *(.stab)
- .stab          0x00000000      0x438 ./External_Interrupts.o
- .stab          0x00000438      0x648 ./StopWatch.o
-                                0x834 (size before relaxing)
- .stab          0x00000a80      0x6c0 ./gpio.o
+ .stab          0x00000000      0x5c4 ./External_Interrupts.o
+ .stab          0x000005c4      0x4b0 ./StopWatch.o
+                                0x6a8 (size before relaxing)
+ .stab          0x00000a74      0x6c0 ./gpio.o
                                 0x8b8 (size before relaxing)
 
 .stabstr        0x00000000      0xaa7
