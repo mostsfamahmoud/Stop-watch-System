@@ -11,6 +11,7 @@
 #define GPIO_H_
 
 #include <avr/io.h>
+#include <util/delay.h>
 #include "Macros.h"
 
 /*******************************************************************************
