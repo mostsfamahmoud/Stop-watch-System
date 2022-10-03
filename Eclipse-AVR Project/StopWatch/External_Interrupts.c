@@ -55,5 +55,55 @@ void INT2_Init(void)
 }
 
 
+/*******************************************************************************
+ *                          INTERRUPT SERVICE ROUTINES                         *
+ *******************************************************************************/
+
+/* INT0 (ISR) that is responsible for RESET the Stop-Watch timer */
+ISR(INT0_vect)
+{
+	resetDigits();       /* Reset all Stop-Watch digits to start from the beginning again */
+
+	PORTC &= 0xF0;       /* Clear all 7-Segment displays */
+
+	_delay_ms(30);       /* Just a 30ms delay due to Button-debouncing */
+}
+
+
+/* INT1 (ISR) that is responsible for PAUSE the Stop-Watch timer */
+ISR(INT1_vect)
+{
+	/* Configure timer control register TCCR1B:
+	 * No clock source (Timer/Counter stopped)
+	      CS10=0 CS11=0 CS12=0
+	 */
+	CLEAR_BIT(TCCR1B,CS10);
+	CLEAR_BIT(TCCR1B,CS11);
+	CLEAR_BIT(TCCR1B,CS12);
+}
+
+
+/* INT2 (ISR) that is responsible for RESUME the Stop-Watch timer if it is paused */
+ISR(INT2_vect)
+{
+	/* Configure timer control register TCCR1B:
+	 * Clock Source ON again (F_CLK/1024 (From prescaler))
+	      CS10=1 CS11=0 CS12=1
+	 */
+
+	/* Check if bit (CS10) in register (TCCR1B) is cleared or not */
+	if (BIT_IS_CLEAR(TCCR1B,CS10))
+	{
+		SET_BIT(TCCR1B,CS10);
+	}
+
+	/* Check if bit (CS12) in register (TCCR1B) is cleared or not */
+	if (BIT_IS_CLEAR(TCCR1B,CS12))
+	{
+		SET_BIT(TCCR1B,CS12);
+	}
+}
+
+
 
 
