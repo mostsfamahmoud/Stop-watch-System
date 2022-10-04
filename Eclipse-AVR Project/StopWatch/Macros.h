@@ -22,9 +22,9 @@
 #define WRITE_BIT(REG,BIT,VAL){\
       switch(VAL){\
       case 0:\
-    	  CLEAR_BTI(REG,BIT); break;\
+    	  CLEAR_BIT(REG,BIT); break;\
       case 1:\
-    	  SET_BTI(REG,BIT); break;\
+    	  SET_BIT(REG,BIT); break;\
       }\
 }
 
