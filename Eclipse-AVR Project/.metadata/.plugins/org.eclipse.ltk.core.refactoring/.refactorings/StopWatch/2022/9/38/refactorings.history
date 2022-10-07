@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Rename resource &apos;StopWatch/Timer.c&apos; to &apos;timer.c&apos;" description="Rename resource &apos;Timer.c&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="Timer.c" name="timer.c" stamp="1663288531995" updateReferences="true"/>
-</session>
